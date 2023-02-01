@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         //let mainVC = MainViewController()
         //let onBoardnigVC = OnBoardingStart()
-        window?.rootViewController = MainTabBarController()
+        window?.rootViewController = UINavigationController(rootViewController: OnBoardingStart())
         window?.makeKeyAndVisible()
         
     }

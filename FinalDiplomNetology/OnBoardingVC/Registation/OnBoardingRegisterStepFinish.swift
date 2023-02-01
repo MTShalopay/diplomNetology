@@ -110,7 +110,7 @@ class OnBoardingRegisterStepFinish: UIViewController {
     }
     @objc private func registrationAction() {
         print(#function)
-        let mainVC = MainViewController()
+        let mainVC = MainTabBarController()
         mainVC.modalTransitionStyle = .flipHorizontal
         mainVC.modalPresentationStyle = .fullScreen
         navigationController?.present(mainVC, animated: true, completion: nil)

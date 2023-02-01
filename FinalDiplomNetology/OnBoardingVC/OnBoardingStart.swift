@@ -78,13 +78,15 @@ class OnBoardingStart: UIViewController {
     @objc private func tapingButton(sender: CustomButton) {
         switch sender.tag {
         case 0:
+            print("11")
             let registerVC = OnBoardingRegisterStepOne()
-            navigationController?.pushViewController(registerVC, animated: true)
+            self.navigationController?.pushViewController(registerVC, animated: true)
         case 1:
+            print("00")
             let recoveryVC = RecoveryStepOne()
-            navigationController?.pushViewController(recoveryVC, animated: true)
+            self.navigationController?.pushViewController(recoveryVC, animated: true)
         default:
-            break
+            fatalError()
         }
     }
 

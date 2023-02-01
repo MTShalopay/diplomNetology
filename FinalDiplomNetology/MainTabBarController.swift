@@ -48,7 +48,7 @@ class MainTabBarController: UITabBarController {
                 let mainVC = MainViewController()
                 return self.wrappedInNavigationController(with: mainVC, title: $0.title)
             case .profile:
-                let profileVC = ProfileViewController()
+                let profileVC = ContainerViewController()
                 return self.wrappedInNavigationController(with: profileVC, title: $0.title)
             case .favotite:
             let favoriteVC = FavoriteViewController()

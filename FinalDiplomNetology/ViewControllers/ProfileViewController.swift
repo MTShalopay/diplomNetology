@@ -7,8 +7,14 @@
 
 import UIKit
 
+protocol ProfileViewControllerDelegate: AnyObject {
+    func didTapButton()
+}
+
 class ProfileViewController: UIViewController {
-    private lazy var profileIDLabel: CustomLabel = {
+    weak var delegate: ProfileViewControllerDelegate?
+    
+    public lazy var profileIDLabel: CustomLabel = {
         let label = CustomLabel(text: "maxim_terentiev", Fontname: FontTextType.medium.rawValue, Fontsize: 16, UIColorhexRGB: ColorType.LabelTextColor.textBlackColor.rawValue, lineHeightMultiple: 1.24, kern: 0.16)
         label.textAlignment = .left
         return label
@@ -57,7 +63,7 @@ class ProfileViewController: UIViewController {
     }
     
     @objc private func settingTap(sender: UIBarButtonItem) {
-        print(#function)
+        delegate?.didTapButton()
     }
 }
 

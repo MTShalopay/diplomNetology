@@ -54,7 +54,7 @@ class RecoveryStepOne: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        createNavigationController(isHidden: true)
+        createNavigationController(isHidden: false)
         setupView()
     }
     

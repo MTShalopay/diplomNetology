@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4941013C298AA78200EF31DD /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4941013B298AA78200EF31DD /* EditProfileViewController.swift */; };
 		4941175A2983E5E800299336 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494117592983E5E800299336 /* AppDelegate.swift */; };
 		4941175C2983E5E800299336 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4941175B2983E5E800299336 /* SceneDelegate.swift */; };
 		4941175E2983E5E800299336 /* OnBoardingStart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4941175D2983E5E800299336 /* OnBoardingStart.swift */; };
@@ -44,9 +45,12 @@
 		49D3C41829892AA2003F1C87 /* PhotosTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D3C41729892AA2003F1C87 /* PhotosTableViewCell.swift */; };
 		49D3C41B29892CA3003F1C87 /* PhotosCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D3C41A29892CA3003F1C87 /* PhotosCollectionViewCell.swift */; };
 		49D3C41E29896982003F1C87 /* SearchNoteHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D3C41D29896982003F1C87 /* SearchNoteHeaderView.swift */; };
+		49D3C423298989A1003F1C87 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D3C422298989A1003F1C87 /* ContainerViewController.swift */; };
+		49D3C426298989CA003F1C87 /* SettingProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D3C425298989CA003F1C87 /* SettingProfileViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4941013B298AA78200EF31DD /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		494117562983E5E800299336 /* FinalDiplomNetology.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalDiplomNetology.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		494117592983E5E800299336 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4941175B2983E5E800299336 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -86,6 +90,8 @@
 		49D3C41729892AA2003F1C87 /* PhotosTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosTableViewCell.swift; sourceTree = "<group>"; };
 		49D3C41A29892CA3003F1C87 /* PhotosCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosCollectionViewCell.swift; sourceTree = "<group>"; };
 		49D3C41D29896982003F1C87 /* SearchNoteHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNoteHeaderView.swift; sourceTree = "<group>"; };
+		49D3C422298989A1003F1C87 /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
+		49D3C425298989CA003F1C87 /* SettingProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingProfileViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -222,6 +228,9 @@
 				49D3C3C6298586A7003F1C87 /* MainViewController.swift */,
 				49D3C3E62987FFBA003F1C87 /* ProfileViewController.swift */,
 				49D3C3E92987FFCA003F1C87 /* FavoriteViewController.swift */,
+				49D3C422298989A1003F1C87 /* ContainerViewController.swift */,
+				49D3C425298989CA003F1C87 /* SettingProfileViewController.swift */,
+				4941013B298AA78200EF31DD /* EditProfileViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -349,10 +358,12 @@
 				49D3C3DD2986C1D6003F1C87 /* StoriesCollectionViewCell.swift in Sources */,
 				49D3C3D12986978E003F1C87 /* Extension+String.swift in Sources */,
 				49D3C3CD29869551003F1C87 /* MenuViewCell.swift in Sources */,
+				4941013C298AA78200EF31DD /* EditProfileViewController.swift in Sources */,
 				4941177F2983EA2400299336 /* Extension+UIVew.swift in Sources */,
 				49D3C3F12988F71C003F1C87 /* ProfileHeaderView.swift in Sources */,
 				494117882983EA6300299336 /* CustomStackView.swift in Sources */,
 				49D3C3C7298586A7003F1C87 /* MainViewController.swift in Sources */,
+				49D3C426298989CA003F1C87 /* SettingProfileViewController.swift in Sources */,
 				494117912983EE1800299336 /* CustomButton.swift in Sources */,
 				49D3C3BE29858103003F1C87 /* RecoveryStepOne.swift in Sources */,
 				49D3C3DA2986BF06003F1C87 /* StoriesViewCell.swift in Sources */,
@@ -361,6 +372,7 @@
 				49D3C3C2298581B8003F1C87 /* Extension+UIViewController.swift in Sources */,
 				4941175A2983E5E800299336 /* AppDelegate.swift in Sources */,
 				4941175C2983E5E800299336 /* SceneDelegate.swift in Sources */,
+				49D3C423298989A1003F1C87 /* ContainerViewController.swift in Sources */,
 				494117A8298428F900299336 /* OnBoardingRegisterStepFinish.swift in Sources */,
 				49D3C3EA2987FFCA003F1C87 /* FavoriteViewController.swift in Sources */,
 				49D3C3F4298908F3003F1C87 /* Extension+UIButton.swift in Sources */,
