@@ -6,7 +6,9 @@
 //
 
 import UIKit
+import CoreData
 class OnBoardingRegisterStepOne: UIViewController {
+    var coreDataManager = CoreDataManager.shared
     var myPhoneNumber = String()
     
     private lazy var textTitleLabel: CustomLabel = {
@@ -75,6 +77,7 @@ class OnBoardingRegisterStepOne: UIViewController {
     }
     
     private func setupView() {
+        title = " "
         view.addSubviews([textTitleLabel, phoneLabel, descriptionLabel, phoneTextField, nextButton, descriptionBottonLabel
         ])
         NSLayoutConstraint.activate([
@@ -113,6 +116,10 @@ class OnBoardingRegisterStepOne: UIViewController {
         print(#function)
         let vc = OnBoardingRegisterStepFinish()
         vc.myPhoneNumber = myPhoneNumber
+        coreDataManager.createUser(numberPhone: myPhoneNumber, password: nil, firstName: nil, secondName: nil, dayBirth: nil, city: nil, profession: nil) { uuid in
+            guard let uuid = uuid else {return}
+            vc.uuid = uuid
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
 }

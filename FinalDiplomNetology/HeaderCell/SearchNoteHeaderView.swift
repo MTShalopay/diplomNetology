@@ -9,13 +9,13 @@ import UIKit
 class SearchNoteHeaderView: UITableViewHeaderFooterView {
     static var identifier = "SearchNoteHeaderView"
     
-    private lazy var titleLabel: CustomLabel = {
+    public lazy var titleLabel: CustomLabel = {
         let label = CustomLabel(text: "Мои записи", Fontname: FontTextType.bold.rawValue, Fontsize: 16, UIColorhexRGB: ColorType.LabelTextColor.textOrangeColor.rawValue, lineHeightMultiple: 1.24, kern: 0.16)
         label.textAlignment = .left
         return label
     }()
     
-    private lazy var searchButton: UIButton = {
+    public lazy var searchButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
         button.tintColor = UIColor(hexRGB: ColorType.LabelTextColor.textBlackColor.rawValue)
@@ -40,7 +40,6 @@ class SearchNoteHeaderView: UITableViewHeaderFooterView {
             
             searchButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
             searchButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
-            searchButton.heightAnchor.constraint(equalToConstant: 20),
             searchButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5)
         ])
     }

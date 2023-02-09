@@ -9,7 +9,7 @@ import UIKit
 class ProfileHeaderView: UITableViewHeaderFooterView {
     static var identifier = "ProfileHeaderView"
     
-    private lazy var profileImageView: UIImageView = {
+    public lazy var profileImageView: UIImageView = {
        let imageView = UIImageView(image: UIImage(named: "logo"))
         imageView.contentMode = .scaleAspectFit
         imageView.layer.borderWidth = 1
@@ -46,7 +46,7 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
         return button
     }()
     
-    private lazy var editButton: CustomButton = {
+    public lazy var editButton: CustomButton = {
         let button = CustomButton(title: "Редактировать",
                                   fontname: FontTextType.bold.rawValue,
                                   fontsize: 16,
@@ -56,8 +56,40 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
                                   lineHeightMultiple: 0,
                                   kern: 0.16)
         button.titleLabel?.textAlignment = .center
-        button.addTarget(self, action: #selector(editProfile), for: .touchUpInside)
         return button
+    }()
+    
+    private lazy var messageButton: CustomButton = {
+        let button = CustomButton(title: "Сообщение",
+                                  fontname: FontTextType.bold.rawValue,
+                                  fontsize: 16,
+                                  backGroundColor: ColorType.LabelTextColor.textOrangeColor.rawValue,
+                                  textColor: ColorType.LabelTextColor.textWhiteColor.rawValue,
+                                  cornerRadius: 10,
+                                  lineHeightMultiple: 0,
+                                  kern: 0.16)
+        button.titleLabel?.textAlignment = .center
+        return button
+    }()
+    
+    private lazy var subscriberButton: CustomButton = {
+        let button = CustomButton(title: "Подписаться",
+                                  fontname: FontTextType.bold.rawValue,
+                                  fontsize: 16,
+                                  backGroundColor: ColorType.LabelTextColor.textOrangeColor.rawValue,
+                                  textColor: ColorType.LabelTextColor.textWhiteColor.rawValue,
+                                  cornerRadius: 10,
+                                  lineHeightMultiple: 0,
+                                  kern: 0.16)
+        button.addTarget(self, action: #selector(changeTitleButton), for: .touchUpInside)
+        button.titleLabel?.textAlignment = .center
+        return button
+    }()
+    
+    public lazy var subscribersButtonStack: CustomStackView = {
+        let stackView = CustomStackView(space: 10, axis: .horizontal, distribution: .fillProportionally, alignment: .center)
+        stackView.isHidden = true
+        return stackView
     }()
     
     private lazy var numberPublicationButton: CustomButton = {
@@ -71,7 +103,7 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
                                   kern: 0.16)
         button.titleLabel?.numberOfLines = 0
         button.titleLabel?.textAlignment = .center
-        //button.addTarget(self, action: #selector(tapingButton), for: .touchUpInside)
+        //button.addTarget(self, action: #selector(tapingPublishButton), for: .touchUpInside)
         return button
     }()
     private lazy var numberSubscriptionsButton: CustomButton = {
@@ -116,38 +148,38 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
         return view
     }()
     
-    private lazy var recordButton: UIButton = {
+    public lazy var recordButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
         button.tintColor = UIColor(hexRGB: ColorType.LabelTextColor.textBlackColor.rawValue)
         button.contentMode = .scaleAspectFit
         button.setTitle("Запись", for: .normal)
         button.setTitleColor(UIColor(hexRGB: ColorType.LabelTextColor.textBlackColor.rawValue), for: .normal)
-        //button.addTarget(self, action: #selector(changeLike), for: .touchUpInside)
+        button.tag = 0
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
-    private lazy var storiesButton: UIButton = {
+    public lazy var storiesButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "camera"), for: .normal)
         button.tintColor = UIColor(hexRGB: ColorType.LabelTextColor.textBlackColor.rawValue)
         button.contentMode = .scaleAspectFit
         button.setTitle("История", for: .normal)
         button.setTitleColor(UIColor(hexRGB: ColorType.LabelTextColor.textBlackColor.rawValue), for: .normal)
-        //button.addTarget(self, action: #selector(changeLike), for: .touchUpInside)
+        button.tag = 1
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
-    private lazy var photoButton: UIButton = {
+    public lazy var photoButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "photo"), for: .normal)
         button.tintColor = UIColor(hexRGB: ColorType.LabelTextColor.textBlackColor.rawValue)
         button.contentMode = .scaleAspectFit
         button.setTitle("Фото", for: .normal)
         button.setTitleColor(UIColor(hexRGB: ColorType.LabelTextColor.textBlackColor.rawValue), for: .normal)
-        //button.addTarget(self, action: #selector(changeLike), for: .touchUpInside)
+        button.tag = 2
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -160,21 +192,23 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         setupView()
-        
     }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         recordButton.alignImageAndTitleVertically(padding: 6)
         storiesButton.alignImageAndTitleVertically(padding: 6)
         photoButton.alignImageAndTitleVertically(padding: 6)
     }
-
+    
     private func setupView() {
-        contentView.addSubviews([profileImageView, nameLabel, professionLabel, infoButton, editButton, horizontalStack, horizontalView, horizontalButtonStack
+        contentView.addSubviews([profileImageView, nameLabel, professionLabel, infoButton, editButton, horizontalStack, horizontalView, horizontalButtonStack, subscribersButtonStack
         ])
         horizontalStack.addArrangedSubviews([numberPublicationButton, numberSubscriptionsButton, numberFoloversButton
         ])
         horizontalButtonStack.addArrangedSubviews([recordButton, storiesButton, photoButton])
+        
+        subscribersButtonStack.addArrangedSubviews([messageButton, subscriberButton])
         
         NSLayoutConstraint.activate([
             profileImageView.heightAnchor.constraint(equalToConstant: 60),
@@ -198,6 +232,20 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
             editButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             editButton.topAnchor.constraint(equalTo: infoButton.bottomAnchor, constant: 25),
             editButton.heightAnchor.constraint(equalToConstant: 47),
+            
+            //messageButton
+            messageButton.heightAnchor.constraint(equalToConstant: 47),
+            //
+            
+            //subscriberButton
+            subscriberButton.heightAnchor.constraint(equalToConstant: 47),
+            //
+            
+            //subscribersButtonStack
+            subscribersButtonStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            subscribersButtonStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            subscribersButtonStack.topAnchor.constraint(equalTo: infoButton.bottomAnchor, constant: 25),
+            subscribersButtonStack.heightAnchor.constraint(equalToConstant: 47),
             
             horizontalStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             horizontalStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
@@ -224,8 +272,14 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
             horizontalButtonStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
         ])
     }
-    @objc private func editProfile() {
-        print(#function)
+    
+    @objc private func changeTitleButton(sender: CustomButton) {
+        sender.isSelected = !sender.isSelected
+        if sender.isSelected {
+            sender.setAttributedTitle(NSAttributedString(string: "Отписаться", attributes: [NSAttributedString.Key.kern: 0.16]), for: .normal)
+        } else {
+            sender.setAttributedTitle(NSAttributedString(string: "Подписаться", attributes: [NSAttributedString.Key.kern: 0.16]), for: .normal)
+        }
     }
     
     required init?(coder: NSCoder) {

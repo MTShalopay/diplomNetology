@@ -6,11 +6,14 @@
 //
 
 import UIKit
+import CoreData
 
 class OnBoardingRegisterStepFinish: UIViewController {
+    var coreDataManager = CoreDataManager.shared
     var myPhoneNumber: String?
+    var uuid = ""
     
-    private lazy var textTitleLabel: CustomLabel = {
+    public lazy var textTitleLabel: CustomLabel = {
         let label = CustomLabel(text: "Подтверждение регистрации", Fontname: FontTextType.medium.rawValue, Fontsize: 22, UIColorhexRGB: ColorType.LabelTextColor.textOrangeColor.rawValue, lineHeightMultiple: 0, kern: 0.18)
         return label
     }()
@@ -39,7 +42,7 @@ class OnBoardingRegisterStepFinish: UIViewController {
         return textField
     }()
     
-    private lazy var registerButton: CustomButton = {
+    public lazy var registerButton: CustomButton = {
         let button = CustomButton(title: "ЗАРЕГИСТИРОВАТЬСЯ",
                                   fontname: FontTextType.regular.rawValue,
                                   fontsize: 19,
@@ -67,7 +70,7 @@ class OnBoardingRegisterStepFinish: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        createNavigationController(isHidden: true)
+        createNavigationController(isHidden: false)
         setupView()
     }
     
@@ -108,8 +111,9 @@ class OnBoardingRegisterStepFinish: UIViewController {
             
         ])
     }
-    @objc private func registrationAction() {
+    @objc public func registrationAction() {
         print(#function)
+        coreDataManager.createUser(numberPhone: nil, password: Int16(smsTextField.text!), firstName: nil, secondName: nil, dayBirth: nil, city: nil, profession: nil, complition: nil)
         let mainVC = MainTabBarController()
         mainVC.modalTransitionStyle = .flipHorizontal
         mainVC.modalPresentationStyle = .fullScreen

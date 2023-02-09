@@ -16,10 +16,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.windowScene = windowScene
-        
-        //let mainVC = MainViewController()
-        //let onBoardnigVC = OnBoardingStart()
+        let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
+        print(paths[0])
+//        window?.rootViewController = MainTabBarController()
         window?.rootViewController = UINavigationController(rootViewController: OnBoardingStart())
+        //CoreDataManager.shared.deleteAll()
         window?.makeKeyAndVisible()
         
     }

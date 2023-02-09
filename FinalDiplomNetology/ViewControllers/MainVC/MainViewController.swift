@@ -6,10 +6,22 @@
 //
 
 import UIKit
+import CoreData
 
 class MainViewController: UIViewController {
-    var menuItem: [String] = ["Новости", "Для вас"]
-    
+    var coreDataManager = CoreDataManager.shared
+    enum menuItem: String, CaseIterable {
+        case news = "Новости"
+        case foryou = "Для вас"
+    }
+    private lazy var fetchResultController: NSFetchedResultsController<NSFetchRequestResult> = {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
+        let sortDescription = NSSortDescriptor(key: "numberPhone", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescription]
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: coreDataManager.context, sectionNameKeyPath: nil, cacheName: nil)
+        return frc
+    }()
+
     private lazy var layout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
@@ -51,11 +63,24 @@ class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        do {
+            try fetchResultController.performFetch()
+        } catch let error {
+            print(error)
+        }
+        for object in fetchResultController.fetchedObjects as! [User]{
+            print(object.uuID, object.numberPhone, object.password)
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         setupView()
     }
     private func setupView() {
         createNavigationController(isHidden: false)
-        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.prefersLargeTitles = false
         title = "Главная"
         let searchBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .done, target: self, action: #selector(searchAction))
         let notifyBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "bell.fill"), style: .done, target: self, action: #selector(notifyAction))
@@ -85,12 +110,12 @@ class MainViewController: UIViewController {
 }
 extension MainViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        menuItem.count
+        menuItem.allCases.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuViewCell.identifier, for: indexPath) as? MenuViewCell else {return UICollectionViewCell(frame: .zero)}
-        let item = menuItem[indexPath.row]
+        let item = menuItem.allCases[indexPath.row].rawValue
         cell.setupCell(item: item)
         return cell
     }
@@ -108,6 +133,7 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
 }
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
@@ -116,7 +142,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         case 0:
             return 1
         case 1:
-            return 1
+            return 5
         default:
             return 0
         }
@@ -134,6 +160,32 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell(frame: .zero)
         }
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("SECTION \(indexPath.section) - ROW \(indexPath.row)")
+        let profileSubscriber = ProfileViewController()
+        profileSubscriber.textPost = "Shalopay"
+        profileSubscriber.navigationItem.leftItemsSupplementBackButton = true
+        DispatchQueue.main.async {
+            guard let profileHeaderView = profileSubscriber.profileTableView.headerView(forSection: 0) as? ProfileHeaderView else { return }
+            profileHeaderView.editButton.isHidden = true
+            profileHeaderView.subscribersButtonStack.isHidden = false
+            
+            guard let searchNoteHeaderView = profileSubscriber.profileTableView.headerView(forSection: 1) as? SearchNoteHeaderView else {return print("zz")}
+            searchNoteHeaderView.searchButton.isHidden = true
+            searchNoteHeaderView.titleLabel.text = "Посты Максима"
+            
+            let settingBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .done, target: self, action: #selector(self.menuTap))
+            settingBarButtonItem.tintColor = UIColor(hexRGB: ColorType.LabelTextColor.textOrangeColor.rawValue)
+            profileSubscriber.navigationItem.rightBarButtonItem = settingBarButtonItem
+        }
+        navigationController?.pushViewController(profileSubscriber, animated: true)
+    }
+    
+    @objc private func menuTap() {
+        print(#function)
+    }
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         switch section {
         case 0:

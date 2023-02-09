@@ -41,8 +41,8 @@ class RecoveryStepOne: UIViewController {
                                   cornerRadius: 10,
                                   lineHeightMultiple: 0,
                                   kern: 0.16)
-        button.titleLabel?.textAlignment = .center
         button.alpha = 0
+        button.titleLabel?.textAlignment = .center
         button.addTarget(self, action: #selector(tapingButton), for: .touchUpInside)
         return button
     }()
@@ -54,6 +54,7 @@ class RecoveryStepOne: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        title = " "
         createNavigationController(isHidden: false)
         setupView()
     }
@@ -86,8 +87,27 @@ class RecoveryStepOne: UIViewController {
             
         ])
     }
-    @objc private func tapingButton() {
+    @objc private func tapingButton(sender: CustomButton) {
         print(#function)
+        let vc = OnBoardingRegisterStepFinish()
+        vc.textTitleLabel.isHidden = true
+        vc.registerButton = CustomButton(title: "Войти",
+                                         fontname: FontTextType.regular.rawValue,
+                                         fontsize: 19,
+                                         backGroundColor: ColorType.ButtonColor.buttonBackGroundBlackColor.rawValue,
+                                         textColor: ColorType.LabelTextColor.textWhiteColor.rawValue,
+                                         cornerRadius: 10,
+                                         lineHeightMultiple: 0,
+                                         kern: 0.16)
+        vc.registerButton.addTarget(self, action: #selector(enterAction), for: .touchUpInside)
+        vc.myPhoneNumber = myPhoneNumber
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    @objc private func enterAction(sender: CustomButton) {
+        let mainVC = MainTabBarController()
+        mainVC.modalTransitionStyle = .flipHorizontal
+        mainVC.modalPresentationStyle = .fullScreen
+        navigationController?.present(mainVC, animated: true, completion: nil)
     }
 }
 

@@ -8,6 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		4941013C298AA78200EF31DD /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4941013B298AA78200EF31DD /* EditProfileViewController.swift */; };
+		49410147298BDB1400EF31DD /* EditProfileViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49410146298BDB1400EF31DD /* EditProfileViewCell.swift */; };
+		49410159298EBEBB00EF31DD /* StoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49410158298EBEBB00EF31DD /* StoriesViewController.swift */; };
+		4941015C2991391400EF31DD /* AddPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4941015B2991391400EF31DD /* AddPostViewController.swift */; };
+		49410161299543E500EF31DD /* FinalDiplomNetology.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4941015F299543E500EF31DD /* FinalDiplomNetology.xcdatamodeld */; };
+		49410165299544B200EF31DD /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49410164299544B200EF31DD /* CoreDataManager.swift */; };
+		4941016A2995465600EF31DD /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494101682995465600EF31DD /* User+CoreDataClass.swift */; };
+		4941016B2995465600EF31DD /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494101692995465600EF31DD /* User+CoreDataProperties.swift */; };
 		4941175A2983E5E800299336 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494117592983E5E800299336 /* AppDelegate.swift */; };
 		4941175C2983E5E800299336 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4941175B2983E5E800299336 /* SceneDelegate.swift */; };
 		4941175E2983E5E800299336 /* OnBoardingStart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4941175D2983E5E800299336 /* OnBoardingStart.swift */; };
@@ -51,6 +58,13 @@
 
 /* Begin PBXFileReference section */
 		4941013B298AA78200EF31DD /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
+		49410146298BDB1400EF31DD /* EditProfileViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewCell.swift; sourceTree = "<group>"; };
+		49410158298EBEBB00EF31DD /* StoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoriesViewController.swift; sourceTree = "<group>"; };
+		4941015B2991391400EF31DD /* AddPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPostViewController.swift; sourceTree = "<group>"; };
+		49410160299543E500EF31DD /* FinalDiplomNetology.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FinalDiplomNetology.xcdatamodel; sourceTree = "<group>"; };
+		49410164299544B200EF31DD /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		494101682995465600EF31DD /* User+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataClass.swift"; sourceTree = "<group>"; };
+		494101692995465600EF31DD /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		494117562983E5E800299336 /* FinalDiplomNetology.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalDiplomNetology.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		494117592983E5E800299336 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4941175B2983E5E800299336 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -105,6 +119,49 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		49410155298EBE5500EF31DD /* MainVC */ = {
+			isa = PBXGroup;
+			children = (
+				49D3C3C6298586A7003F1C87 /* MainViewController.swift */,
+			);
+			path = MainVC;
+			sourceTree = "<group>";
+		};
+		49410156298EBE6A00EF31DD /* ProfileVC */ = {
+			isa = PBXGroup;
+			children = (
+				49D3C3E62987FFBA003F1C87 /* ProfileViewController.swift */,
+			);
+			path = ProfileVC;
+			sourceTree = "<group>";
+		};
+		49410157298EBE7400EF31DD /* FavoriteVC */ = {
+			isa = PBXGroup;
+			children = (
+				49D3C3E92987FFCA003F1C87 /* FavoriteViewController.swift */,
+			);
+			path = FavoriteVC;
+			sourceTree = "<group>";
+		};
+		494101632995448D00EF31DD /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				4941016E2995467900EF31DD /* Entity */,
+				4941015F299543E500EF31DD /* FinalDiplomNetology.xcdatamodeld */,
+				49410164299544B200EF31DD /* CoreDataManager.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		4941016E2995467900EF31DD /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				494101682995465600EF31DD /* User+CoreDataClass.swift */,
+				494101692995465600EF31DD /* User+CoreDataProperties.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
 		4941174D2983E5E800299336 = {
 			isa = PBXGroup;
 			children = (
@@ -124,6 +181,7 @@
 		494117582983E5E800299336 /* FinalDiplomNetology */ = {
 			isa = PBXGroup;
 			children = (
+				494101632995448D00EF31DD /* CoreData */,
 				49D3C3DF2986C83C003F1C87 /* Model */,
 				49D3C3D82986BECB003F1C87 /* TableViewCell */,
 				49D3C3D42986B58E003F1C87 /* HeaderCell */,
@@ -225,11 +283,13 @@
 		49D3C3C529858671003F1C87 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				49D3C3C6298586A7003F1C87 /* MainViewController.swift */,
-				49D3C3E62987FFBA003F1C87 /* ProfileViewController.swift */,
-				49D3C3E92987FFCA003F1C87 /* FavoriteViewController.swift */,
+				49410155298EBE5500EF31DD /* MainVC */,
+				49410156298EBE6A00EF31DD /* ProfileVC */,
+				49410157298EBE7400EF31DD /* FavoriteVC */,
 				49D3C422298989A1003F1C87 /* ContainerViewController.swift */,
 				49D3C425298989CA003F1C87 /* SettingProfileViewController.swift */,
+				49410158298EBEBB00EF31DD /* StoriesViewController.swift */,
+				4941015B2991391400EF31DD /* AddPostViewController.swift */,
 				4941013B298AA78200EF31DD /* EditProfileViewController.swift */,
 			);
 			path = ViewControllers;
@@ -240,6 +300,7 @@
 			children = (
 				49D3C3CC29869551003F1C87 /* MenuViewCell.swift */,
 				49D3C3DC2986C1D6003F1C87 /* StoriesCollectionViewCell.swift */,
+				49410146298BDB1400EF31DD /* EditProfileViewCell.swift */,
 				49D3C41A29892CA3003F1C87 /* PhotosCollectionViewCell.swift */,
 			);
 			path = CollectionCell;
@@ -357,18 +418,23 @@
 				4941177C2983E7FA00299336 /* Extension+UIColor.swift in Sources */,
 				49D3C3DD2986C1D6003F1C87 /* StoriesCollectionViewCell.swift in Sources */,
 				49D3C3D12986978E003F1C87 /* Extension+String.swift in Sources */,
+				49410161299543E500EF31DD /* FinalDiplomNetology.xcdatamodeld in Sources */,
 				49D3C3CD29869551003F1C87 /* MenuViewCell.swift in Sources */,
 				4941013C298AA78200EF31DD /* EditProfileViewController.swift in Sources */,
+				49410147298BDB1400EF31DD /* EditProfileViewCell.swift in Sources */,
 				4941177F2983EA2400299336 /* Extension+UIVew.swift in Sources */,
 				49D3C3F12988F71C003F1C87 /* ProfileHeaderView.swift in Sources */,
 				494117882983EA6300299336 /* CustomStackView.swift in Sources */,
 				49D3C3C7298586A7003F1C87 /* MainViewController.swift in Sources */,
 				49D3C426298989CA003F1C87 /* SettingProfileViewController.swift in Sources */,
+				49410159298EBEBB00EF31DD /* StoriesViewController.swift in Sources */,
 				494117912983EE1800299336 /* CustomButton.swift in Sources */,
+				4941015C2991391400EF31DD /* AddPostViewController.swift in Sources */,
 				49D3C3BE29858103003F1C87 /* RecoveryStepOne.swift in Sources */,
 				49D3C3DA2986BF06003F1C87 /* StoriesViewCell.swift in Sources */,
 				494117A029840C8B00299336 /* CustomTextField.swift in Sources */,
 				494117A429841BCC00299336 /* Extension+TextField.swift in Sources */,
+				4941016A2995465600EF31DD /* User+CoreDataClass.swift in Sources */,
 				49D3C3C2298581B8003F1C87 /* Extension+UIViewController.swift in Sources */,
 				4941175A2983E5E800299336 /* AppDelegate.swift in Sources */,
 				4941175C2983E5E800299336 /* SceneDelegate.swift in Sources */,
@@ -378,7 +444,9 @@
 				49D3C3F4298908F3003F1C87 /* Extension+UIButton.swift in Sources */,
 				49D3C3E72987FFBA003F1C87 /* ProfileViewController.swift in Sources */,
 				494117782983E79E00299336 /* Constants.swift in Sources */,
+				4941016B2995465600EF31DD /* User+CoreDataProperties.swift in Sources */,
 				49D3C3E12986C857003F1C87 /* Users.swift in Sources */,
+				49410165299544B200EF31DD /* CoreDataManager.swift in Sources */,
 				49D3C3ED298804B5003F1C87 /* PostTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -573,6 +641,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		4941015F299543E500EF31DD /* FinalDiplomNetology.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				49410160299543E500EF31DD /* FinalDiplomNetology.xcdatamodel */,
+			);
+			currentVersion = 49410160299543E500EF31DD /* FinalDiplomNetology.xcdatamodel */;
+			path = FinalDiplomNetology.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 4941174E2983E5E800299336 /* Project object */;
 }
