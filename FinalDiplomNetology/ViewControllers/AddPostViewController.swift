@@ -8,6 +8,10 @@
 import UIKit
 
 class AddPostViewController: UIViewController {
+    weak var delegate: ProfileDelegateUpdateTableView?
+    var coreDataManager = CoreDataManager.shared
+    var user: User?
+    var selectImage: Data?
     
     private lazy var postTextView: UITextView = {
         let textView = UITextView(frame: .zero)
@@ -16,17 +20,6 @@ class AddPostViewController: UIViewController {
         textView.text = "Что у вас нового?"
         textView.textColor = UIColor.lightGray
         textView.font = UIFont(name: "rubik-regular", size: 16)
-        
-//        //create your UIImage
-//        let image = UIImage(named: "logo");
-//        //create and NSTextAttachment and add your image to it.
-//        let attachment = NSTextAttachment()
-//        attachment.image = image
-//        //put your NSTextAttachment into and attributedString
-//        let attString = NSAttributedString(attachment: attachment)
-//        //add this attributed string to the current position.
-//        textView.textStorage.insert(attString, at: textView.selectedRange.location)
-//
         textView.inputAccessoryView = toolBar
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
@@ -117,6 +110,11 @@ class AddPostViewController: UIViewController {
     
     @objc private func sendAction() {
         print(#function)
+        guard let textPost = postTextView.text else {return}
+        let post = coreDataManager.createPost(image: selectImage, text: textPost)
+        user?.addToPosts(post)
+        delegate?.updateTableView()
+        dismiss(animated: true, completion: nil)
     }
     @objc private func cancelAction() {
         print(#function)
@@ -159,7 +157,9 @@ extension AddPostViewController: UIImagePickerControllerDelegate, UINavigationCo
         guard let image = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerEditedImage")] as? UIImage else {return}
         
         DispatchQueue.main.async {
-            self.selectImageView.image = image
+            self.selectImage = image.jpegData(compressionQuality: 1)
+            guard let imageData = self.selectImage else {return}
+            self.selectImageView.image = UIImage(data: imageData)
         }
         picker.dismiss(animated: true) {
             self.selectImageView.isHidden = false

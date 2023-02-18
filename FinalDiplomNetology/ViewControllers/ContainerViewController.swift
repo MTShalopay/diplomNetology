@@ -92,6 +92,7 @@ extension ContainerViewController: SettingProfileViewControllerDelegate {
         vc.didMove(toParent: profileVC)
         profileVC.title = vc.title
         profileVC.profileIDLabel.isHidden = true
+        vc.user = profileVC.user
     }
     private func resetToProfile(){
         editProfileVC.removeChildVC()

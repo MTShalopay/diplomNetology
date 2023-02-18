@@ -2,7 +2,7 @@
 //  User+CoreDataClass.swift
 //  FinalDiplomNetology
 //
-//  Created by Shalopay on 09.02.2023.
+//  Created by Shalopay on 17.02.2023.
 //
 //
 
@@ -11,4 +11,7 @@ import CoreData
 
 @objc(User)
 public class User: NSManagedObject {
+    convenience init() {
+        self.init(entity: CoreDataManager.shared.entityForName("User"), insertInto: CoreDataManager.shared.context)
+    }
 }

@@ -8,6 +8,7 @@
 import UIKit
 
 class MainTabBarController: UITabBarController {
+    var user: User?
     private enum TabBarItem: Int {
         case main
         case profile
@@ -33,7 +34,7 @@ class MainTabBarController: UITabBarController {
             }
         }
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()

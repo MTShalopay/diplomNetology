@@ -18,10 +18,10 @@ import Foundation
 //    let post: [Post]
 //}
 //
-//struct Post {
-//    let text: String
-//    let image: String?
-//    let like: Int
-//    let comment: Int
-//    let favorite: Bool
-//}
+struct UserPost {
+    let text: String?
+    let image: Data?
+    let like: Int?
+    let comment: Int?
+    let favorite: Bool
+}

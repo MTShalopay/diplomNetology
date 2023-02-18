@@ -10,7 +10,7 @@ import UIKit
 class PhotosCollectionViewCell: UICollectionViewCell {
     static var identifier: String = "photosTableViewCell"
     
-     lazy var avaImage: UIImageView = {
+     lazy var userImage: UIImageView = {
        let avaImage = UIImageView()
         avaImage.contentMode = .scaleAspectFill
         avaImage.clipsToBounds = true
@@ -31,12 +31,17 @@ class PhotosCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupView() {
-        contentView.addSubview(avaImage)
+        contentView.addSubview(userImage)
         NSLayoutConstraint.activate([
-            avaImage.topAnchor.constraint(equalTo: contentView.topAnchor),
-            avaImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            avaImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            avaImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            userImage.topAnchor.constraint(equalTo: contentView.topAnchor),
+            userImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            userImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            userImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
+    }
+    
+    func setupCell(photo: Photo) {
+        let defaultImageData = UIImage(named: "logo")?.pngData()
+        userImage.image = UIImage(data: photo.image ?? defaultImageData!)
     }
 }

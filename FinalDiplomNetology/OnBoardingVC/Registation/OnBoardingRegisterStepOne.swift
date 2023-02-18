@@ -10,6 +10,7 @@ import CoreData
 class OnBoardingRegisterStepOne: UIViewController {
     var coreDataManager = CoreDataManager.shared
     var myPhoneNumber = String()
+    var user: User?
     
     private lazy var textTitleLabel: CustomLabel = {
         let label = CustomLabel(text: "ЗАРЕГИСТИРОВАТЬСЯ", Fontname: FontTextType.medium.rawValue, Fontsize: 22, UIColorhexRGB: ColorType.LabelTextColor.textBlackColor.rawValue, lineHeightMultiple: 0, kern: 0.18)
@@ -114,13 +115,19 @@ class OnBoardingRegisterStepOne: UIViewController {
     
     @objc private func tapingButton(sender: UIButton) {
         print(#function)
-        let vc = OnBoardingRegisterStepFinish()
-        vc.myPhoneNumber = myPhoneNumber
-        coreDataManager.createUser(numberPhone: myPhoneNumber, password: nil, firstName: nil, secondName: nil, dayBirth: nil, city: nil, profession: nil) { uuid in
-            guard let uuid = uuid else {return}
-            vc.uuid = uuid
+        if coreDataManager.chekcduplicateUser(for: myPhoneNumber) {
+            user = coreDataManager.createUser()
+            user?.numberPhone = myPhoneNumber
+            let vc = OnBoardingRegisterStepFinish()
+            vc.myPhoneNumber = myPhoneNumber
+            vc.user = user
+            navigationController?.pushViewController(vc, animated: true)
+        } else {
+            let alertController = UIAlertController(title: "ОШИБКА ВХОДА", message: "Данный номер \(myPhoneNumber) уже зарегистирован", preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "Понятно", style: .cancel, handler: nil)
+            alertController.addAction(cancelAction)
+            present(alertController, animated: true, completion: nil)
         }
-        navigationController?.pushViewController(vc, animated: true)
     }
 }
 

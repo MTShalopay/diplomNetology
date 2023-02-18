@@ -17,7 +17,7 @@ class PostTableViewCell: UITableViewCell {
     
     private lazy var logoImageView: UIImageView = {
        let imageView = UIImageView(image: UIImage(named: "logo"))
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.layer.borderWidth = 1
         imageView.layer.borderColor = UIColor(hexRGB: ColorType.LabelTextColor.textBlackColor.rawValue)?.cgColor
         imageView.layer.cornerRadius = 30
@@ -38,11 +38,11 @@ class PostTableViewCell: UITableViewCell {
         return label
     }()
     
-    private lazy var optionButton: UIButton = {
+    public lazy var optionButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "ellipsis"), for: .normal)
         button.tintColor = UIColor(hexRGB: ColorType.LabelTextColor.textOrangeColor.rawValue)
-        button.addTarget(self, action: #selector(tapingButton), for: .touchUpInside)
+//        button.addTarget(self, action: #selector(tapingButton), for: .touchUpInside)
         button.transform = button.transform.rotated(by: .pi / 2)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -189,8 +189,13 @@ class PostTableViewCell: UITableViewCell {
         ])
     }
     
-    @objc private func tapingButton() {
-        print(#function)
+    public func setupCell(post: Post) {
+        let defaultImageData = UIImage(named: "logo")?.pngData()
+        logoImageView.image = UIImage(data: post.user?.avatar ?? defaultImageData!)
+        nameLabel.text = "\(post.user?.firstName ?? "Имя") \( post.user?.secondName ?? "Фамилия")"
+        professionLabel.text = post.user?.profession ?? "профессия"
+        postTextLabel.text = post.text
+        postImageView.image = UIImage(data: post.image ?? defaultImageData!)
     }
     
     @objc private func isFavorite(sender: UIButton) {

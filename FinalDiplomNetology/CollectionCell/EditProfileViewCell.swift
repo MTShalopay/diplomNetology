@@ -82,22 +82,19 @@ extension EditProfileViewCell: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        print(#function)
         if EditProfileViewController().tableView.contentOffset.y == 0 {
             let cell = textField.superview?.superview as? EditProfileViewCell
             if let cell = cell, let indexPath = EditProfileViewController().tableView.indexPath(for: cell) {
                 EditProfileViewController().tableView.scrollToRow(at: indexPath, at: .top, animated: true)
             }
         }
-        
     }
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
-        print(#function)
-        
+        //print(#function)
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        print(textField.text, textField.tag)
         return true
     }
 }

@@ -21,8 +21,6 @@ class CoreDataManager {
         return NSEntityDescription.entity(forEntityName: name, in: context)!
     }
     
-    
-    
     // MARK: - Core Data stack
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "FinalDiplomNetology")
@@ -37,6 +35,7 @@ class CoreDataManager {
     
     // MARK: - Core Data Saving support
     func saveContext () {
+        print("Сохранение данных")
         if context.hasChanges {
             do {
                 try context.save()
@@ -70,26 +69,103 @@ class CoreDataManager {
 //        }
 //    }
     */
-    func createUser(numberPhone: String?, password: Int16?, firstName: String?, secondName: String?, dayBirth: String?, city: String?, profession: String?, complition: ((String?)-> Void)?) {
-        persistentContainer.performBackgroundTask { (context) in
-            let user = User(context: context)
-            user.uuID = UUID().uuidString
-            user.city = city
-            user.dayBirth = dayBirth
-            user.firstName = firstName
-            user.secondName = secondName
-            user.numberPhone = numberPhone
-            user.password = password ?? 0
-            user.profession = profession
-            do {
-                try context.save()
-                complition?(user.uuID)
-            } catch let error {
-                print(error)
-                complition?(nil)
+    func fetchChekNumberPhone(for numberPhone: String, comletion: ((User?) -> Void)?) -> Bool {
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName:"User")
+        request.predicate = NSPredicate(format: "numberPhone == %@", numberPhone)
+        do {
+            let result = try persistentContainer.viewContext.fetch(request) as! [User]
+            if result.count == 0 {
+                comletion?(nil)
+                return false
             }
+            comletion?(result.first)
+        } catch let error {
+            print("fetchRequest error: \(error) ")
         }
+        return true
     }
+    
+    func chekcduplicateUser(for numberPhone: String) -> Bool {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
+        fetchRequest.predicate = NSPredicate(format: "numberPhone == %@",numberPhone)
+        do {
+            let result = try persistentContainer.viewContext.fetch(fetchRequest) as! [User]
+            if result.count == 0 {
+                return true
+            }
+            
+        } catch let error {
+            print("chekcduplicateUser ERROR: \(error)")
+        }
+        return false
+    }
+    
+    func fetchChekPassword(_ password: String) -> Bool {
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName:"User")
+        request.predicate = NSPredicate(format: "password == %@", password)
+        do {
+            let result = try persistentContainer.viewContext.fetch(request) as! [User]
+            if result.count == 0 {
+                return true
+            }
+        } catch let error {
+            print("fetchRequest error: \(error) ")
+        }
+        return false
+    }
+    
+    /*
+     func checkDuplicate(authorName: String) -> Bool {
+         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "FavoriteItem")
+         fetchRequest.predicate = NSPredicate(format: "author == %@", argumentArray: [authorName])
+         let count = try! persistentContainer.viewContext.count(for: fetchRequest)
+         fetchRequest.fetchLimit = count
+         guard count == 0 else {
+             print("POST DUBLICATE")
+                 return false
+         }
+         return true
+     }
+     */
+    /*
+     let fetchrequest = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
+     fetchrequest.predicate = NSPredicate(format: "numberPhone == %@", "89275403646")
+     do {
+         let result = try coreDataManager.context.fetch(fetchrequest)
+         for user in result as! [User] {
+             print("uuID :\(user.uuID) phone: \(user.numberPhone)")
+         }
+         
+     } catch let error {
+         print(error)
+     }
+     print("============")
+     */
+    func createUser() -> User {
+        let user = NSManagedObject(entity: entityForName("User"), insertInto: context) as! User
+        user.uuID = UUID().uuidString
+        saveContext()
+        return user
+    }
+    
+    func createPost(image: Data?, text: String?) -> Post {
+        let post = NSManagedObject(entity: entityForName("Post"), insertInto: context) as! Post
+        post.date = Date()
+        post.favorite = false
+        post.image = image
+        post.text = text
+        saveContext()
+        return post
+    }
+    
+    func createPhoto(imageData: Data) -> Photo {
+        let photo = NSManagedObject(entity: entityForName("Photo"), insertInto: context) as! Photo
+        photo.date = Date()
+        photo.image = imageData
+        saveContext()
+        return photo
+    }
+    
 //    func createJoke(from JokeCodable: JokeCodable) {
 //        persistentContainer.performBackgroundTask { (context) in
 //            let joke = Joke(context: context)
@@ -107,26 +183,18 @@ class CoreDataManager {
 //            }
 //        }
 //    }
-    func getUser(by uuid: String) {
+    func getUser(by uuid: String) -> User {
         let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "uuID == %@", uuid)
         do {
             if let user = (try context.fetch(fetchRequest)).first {
-                print(user.uuID)
+                //print(user.uuID, user.numberPhone)
+                return user
             }
         } catch let error {
             print(error)
         }
-        /*
-         fetchRequest.predicate = NSPredicate(format: "author contains[c] %@", argumentArray: [authorName])
-         do {
-             let posts = try persistentContainer.viewContext.fetch(fetchRequest) as! [FavoriteItem]
-             return posts
-         } catch {
-             print("ERROR SEARCHPOST \(error)")
-             return []
-         }
-         */
+        return User()
     }
 //    func getCategory(by name: String, contex: NSManagedObjectContext) -> Categories {
 //        let request: NSFetchRequest<Categories> = Categories.fetchRequest()
@@ -146,7 +214,33 @@ class CoreDataManager {
         print("Удалили юзера с телефоном \(user.numberPhone)")
     }
     
-    func deleteAll() {
+    func deletePost(post: Post) {
+        persistentContainer.viewContext.delete(post)
+        saveContext()
+        print("Удалили пост")
+    }
+    
+    func deletePhoto(photo: Photo) {
+        persistentContainer.viewContext.delete(photo)
+        saveContext()
+        print("Удалили фотографию")
+    }
+    
+    func deleteAllPhoto() {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Photo")
+        do {
+            let results = try context.fetch(fetchRequest) as! [Photo]
+            for result in results {
+                context.delete(result)
+                saveContext()
+            }
+        } catch let error {
+            print(error)
+        }
+        print("Удалили все фотографии")
+    }
+    
+    func deleteAllUser() {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
         do {
             let results = try context.fetch(fetchRequest) as! [User]

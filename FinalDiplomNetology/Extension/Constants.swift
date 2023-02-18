@@ -27,3 +27,13 @@ enum FontTextType: String {
     case bold = "rubik-semi-bold"
     case regular = "rubik-regular"
 }
+
+func transliterate(nonLatin: String) -> String {
+    return nonLatin
+        .applyingTransform(.toLatin, reverse: false)?
+        .applyingTransform(.stripDiacritics, reverse: false)?
+        .lowercased()
+        .replacingOccurrences(of: " ", with: "_") ?? nonLatin
+}
+
+let defaultImageData = UIImage(named: "logo")?.pngData()

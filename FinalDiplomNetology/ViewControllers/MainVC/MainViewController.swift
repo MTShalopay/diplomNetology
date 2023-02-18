@@ -10,6 +10,7 @@ import CoreData
 
 class MainViewController: UIViewController {
     var coreDataManager = CoreDataManager.shared
+    var user: User?
     enum menuItem: String, CaseIterable {
         case news = "Новости"
         case foryou = "Для вас"
@@ -63,19 +64,24 @@ class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         do {
             try fetchResultController.performFetch()
         } catch let error {
             print(error)
         }
-        for object in fetchResultController.fetchedObjects as! [User]{
-            print(object.uuID, object.numberPhone, object.password)
-        }
+//        for object in fetchResultController.fetchedObjects as! [User] {
+//            if object.uuID == user?.uuID {
+//                print("ZZZ: \(object.uuID) \(object.numberPhone) \(object.password) \(object.firstName) \(object.dayBirth)")
+//            }
+//            print("================")
+//        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        guard let mainTB = tabBarController as? MainTabBarController else {return}
+            user = mainTB.user
+        print("USER: \(user)")
         setupView()
     }
     private func setupView() {
@@ -102,7 +108,8 @@ class MainViewController: UIViewController {
         ])
     }
     @objc private func searchAction() {
-        print(#function)
+        let serachVC = SearchViewController()
+        navigationController?.pushViewController(serachVC, animated: true)
     }
     @objc private func notifyAction() {
         print(#function)
@@ -164,7 +171,6 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("SECTION \(indexPath.section) - ROW \(indexPath.row)")
         let profileSubscriber = ProfileViewController()
-        profileSubscriber.textPost = "Shalopay"
         profileSubscriber.navigationItem.leftItemsSupplementBackButton = true
         DispatchQueue.main.async {
             guard let profileHeaderView = profileSubscriber.profileTableView.headerView(forSection: 0) as? ProfileHeaderView else { return }

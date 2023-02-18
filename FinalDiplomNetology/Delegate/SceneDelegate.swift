@@ -20,7 +20,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         print(paths[0])
 //        window?.rootViewController = MainTabBarController()
         window?.rootViewController = UINavigationController(rootViewController: OnBoardingStart())
-        //CoreDataManager.shared.deleteAll()
+        //CoreDataManager.shared.deleteAllUser()
+        //CoreDataManager.shared.deleteAllPhoto()
+        window?.overrideUserInterfaceStyle = .light
         window?.makeKeyAndVisible()
         
     }

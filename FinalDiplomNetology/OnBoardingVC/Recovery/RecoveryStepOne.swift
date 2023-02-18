@@ -6,9 +6,12 @@
 //
 
 import UIKit
+import CoreData
 
 class RecoveryStepOne: UIViewController {
+    var coreDataManager = CoreDataManager.shared
     var myPhoneNumber = String()
+    var user: User?
     private lazy var textTitleLabel: CustomLabel = {
         let label = CustomLabel(text: "С возвращением", Fontname: FontTextType.medium.rawValue, Fontsize: 22, UIColorhexRGB: ColorType.LabelTextColor.textOrangeColor.rawValue, lineHeightMultiple: 0, kern: 0.18)
         return label
@@ -49,7 +52,6 @@ class RecoveryStepOne: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-    
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -91,6 +93,21 @@ class RecoveryStepOne: UIViewController {
         print(#function)
         let vc = OnBoardingRegisterStepFinish()
         vc.textTitleLabel.isHidden = true
+        vc.myPhoneNumber = myPhoneNumber
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName:"User")
+        request.predicate = NSPredicate(format: "numberPhone == %@", myPhoneNumber)
+        do {
+            let result = try CoreDataManager.shared.persistentContainer.viewContext.fetch(request) as! [User]
+            if result.count == 0 {
+                let alertController = UIAlertController(title: "ОШИБКА ВХОДА", message: "Проверте пожалуйста правильность ввода своего номера телефона", preferredStyle: .alert)
+                let cancelAction = UIAlertAction(title: "Понятно", style: .cancel, handler: nil)
+                alertController.addAction(cancelAction)
+                present(alertController, animated: true, completion: nil)
+            }
+            user = result.first
+        } catch let error {
+            print(error)
+        }
         vc.registerButton = CustomButton(title: "Войти",
                                          fontname: FontTextType.regular.rawValue,
                                          fontsize: 19,
@@ -100,14 +117,14 @@ class RecoveryStepOne: UIViewController {
                                          lineHeightMultiple: 0,
                                          kern: 0.16)
         vc.registerButton.addTarget(self, action: #selector(enterAction), for: .touchUpInside)
-        vc.myPhoneNumber = myPhoneNumber
         navigationController?.pushViewController(vc, animated: true)
     }
     @objc private func enterAction(sender: CustomButton) {
-        let mainVC = MainTabBarController()
-        mainVC.modalTransitionStyle = .flipHorizontal
-        mainVC.modalPresentationStyle = .fullScreen
-        navigationController?.present(mainVC, animated: true, completion: nil)
+        let mainTB = MainTabBarController()
+        mainTB.user = user
+        mainTB.modalTransitionStyle = .flipHorizontal
+        mainTB.modalPresentationStyle = .fullScreen
+        navigationController?.present(mainTB, animated: true, completion: nil)
     }
 }
 

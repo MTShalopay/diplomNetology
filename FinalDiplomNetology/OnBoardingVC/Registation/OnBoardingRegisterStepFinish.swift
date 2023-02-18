@@ -11,8 +11,7 @@ import CoreData
 class OnBoardingRegisterStepFinish: UIViewController {
     var coreDataManager = CoreDataManager.shared
     var myPhoneNumber: String?
-    var uuid = ""
-    
+    var user: User?
     public lazy var textTitleLabel: CustomLabel = {
         let label = CustomLabel(text: "Подтверждение регистрации", Fontname: FontTextType.medium.rawValue, Fontsize: 22, UIColorhexRGB: ColorType.LabelTextColor.textOrangeColor.rawValue, lineHeightMultiple: 0, kern: 0.18)
         return label
@@ -31,7 +30,7 @@ class OnBoardingRegisterStepFinish: UIViewController {
         return label
     }()
     
-    private lazy var smsTextField: CustomTextField = {
+    public lazy var smsTextField: CustomTextField = {
         let textField = CustomTextField(holder: "___-___-__", colorText: ColorType.LabelTextColor.textBlackColor.rawValue, cornerRadius: 10)
         textField.delegate = self
         textField.layer.borderWidth = 1
@@ -65,7 +64,6 @@ class OnBoardingRegisterStepFinish: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -112,14 +110,19 @@ class OnBoardingRegisterStepFinish: UIViewController {
         ])
     }
     @objc public func registrationAction() {
-        print(#function)
-        coreDataManager.createUser(numberPhone: nil, password: Int16(smsTextField.text!), firstName: nil, secondName: nil, dayBirth: nil, city: nil, profession: nil, complition: nil)
-        let mainVC = MainTabBarController()
-        mainVC.modalTransitionStyle = .flipHorizontal
-        mainVC.modalPresentationStyle = .fullScreen
-        navigationController?.present(mainVC, animated: true, completion: nil)
+        user?.password = smsTextField.text!
+        coreDataManager.saveContext()
+        let mainTB = MainTabBarController()
+            mainTB.user = user
+            mainTB.modalTransitionStyle = .flipHorizontal
+            mainTB.modalPresentationStyle = .fullScreen
+        navigationController?.present(mainTB, animated: true, completion: nil)
     }
 }
 extension OnBoardingRegisterStepFinish: UITextFieldDelegate {
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        print(textField.text)
+        return true
+    }
 }

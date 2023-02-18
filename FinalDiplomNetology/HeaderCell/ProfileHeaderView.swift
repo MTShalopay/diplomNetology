@@ -6,8 +6,11 @@
 //
 
 import UIKit
+
 class ProfileHeaderView: UITableViewHeaderFooterView {
     static var identifier = "ProfileHeaderView"
+    var user: User?
+    
     
     public lazy var profileImageView: UIImageView = {
        let imageView = UIImageView(image: UIImage(named: "logo"))
@@ -20,13 +23,13 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
         return imageView
     }()
     
-    private lazy var nameLabel: CustomLabel = {
+    public lazy var nameLabel: CustomLabel = {
         let label = CustomLabel(text: "Максим Терентьев", Fontname: FontTextType.medium.rawValue, Fontsize: 18, UIColorhexRGB: ColorType.LabelTextColor.textBlackColor.rawValue, lineHeightMultiple: 1.24, kern: 0.16)
         label.textAlignment = .left
         return label
     }()
     
-    private lazy var professionLabel: CustomLabel = {
+    public lazy var professionLabel: CustomLabel = {
         let label = CustomLabel(text: "IOS developer", Fontname: FontTextType.bold.rawValue, Fontsize: 12, UIColorhexRGB: ColorType.LabelTextColor.textDescriptionColor.rawValue, lineHeightMultiple: 1.24, kern: 0.16)
         label.textAlignment = .left
         return label
@@ -59,7 +62,7 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
         return button
     }()
     
-    private lazy var messageButton: CustomButton = {
+    public lazy var messageButton: CustomButton = {
         let button = CustomButton(title: "Сообщение",
                                   fontname: FontTextType.bold.rawValue,
                                   fontsize: 16,
@@ -72,7 +75,7 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
         return button
     }()
     
-    private lazy var subscriberButton: CustomButton = {
+    public lazy var subscriberButton: CustomButton = {
         let button = CustomButton(title: "Подписаться",
                                   fontname: FontTextType.bold.rawValue,
                                   fontsize: 16,
@@ -91,9 +94,8 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
         stackView.isHidden = true
         return stackView
     }()
-    
-    private lazy var numberPublicationButton: CustomButton = {
-        let button = CustomButton(title: "14\nпубликаций",
+    public lazy var numberPublicationButton: CustomButton = {
+        let button = CustomButton(title: "\(user?.posts?.count)\nпубликаций",
                                   fontname: FontTextType.bold.rawValue,
                                   fontsize: 14,
                                   backGroundColor: ColorType.ViewColor.backGroundColorView.rawValue,
@@ -101,12 +103,13 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
                                   cornerRadius: 0,
                                   lineHeightMultiple: 1.18,
                                   kern: 0.16)
+        button.contentHorizontalAlignment = .center
         button.titleLabel?.numberOfLines = 0
         button.titleLabel?.textAlignment = .center
         //button.addTarget(self, action: #selector(tapingPublishButton), for: .touchUpInside)
         return button
     }()
-    private lazy var numberSubscriptionsButton: CustomButton = {
+    public lazy var numberSubscriptionsButton: CustomButton = {
         let button = CustomButton(title: "14\nподписок",
                                   fontname: FontTextType.bold.rawValue,
                                   fontsize: 14,
@@ -121,7 +124,7 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
         return button
     }()
     
-    private lazy var numberFoloversButton: CustomButton = {
+    public lazy var numberFoloversButton: CustomButton = {
         let button = CustomButton(title: "14\nподписчиков",
                                   fontname: FontTextType.bold.rawValue,
                                   fontsize: 14,
@@ -184,7 +187,7 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
         return button
     }()
     
-    private lazy var horizontalButtonStack: CustomStackView = {
+    public lazy var horizontalButtonStack: CustomStackView = {
         let stackView = CustomStackView(space: 0, axis: .horizontal, distribution: .equalCentering, alignment: .center)
         return stackView
     }()
@@ -277,6 +280,7 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
         sender.isSelected = !sender.isSelected
         if sender.isSelected {
             sender.setAttributedTitle(NSAttributedString(string: "Отписаться", attributes: [NSAttributedString.Key.kern: 0.16]), for: .normal)
+            print(user?.firstName, user?.uuID, user?.secondName, user?.profession)
         } else {
             sender.setAttributedTitle(NSAttributedString(string: "Подписаться", attributes: [NSAttributedString.Key.kern: 0.16]), for: .normal)
         }

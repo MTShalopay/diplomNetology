@@ -9,7 +9,7 @@ import UIKit
 
 class PhotosTableViewCell: UITableViewCell {
     static var identifier: String = "photosTableViewCell"
-    
+    var user: User?
     private enum Constants {
         static let numberOfLine: CGFloat = 4
     }
@@ -40,11 +40,12 @@ class PhotosTableViewCell: UITableViewCell {
         return label
     }()
         
-    private lazy var rightImage: UIImageView = {
+    public lazy var rightImage: UIImageView = {
        let rightImage = UIImageView()
         let myImage = UIImage(systemName: "arrow.right")
         rightImage.image = myImage
         rightImage.tintColor = UIColor(hexRGB: ColorType.LabelTextColor.textBlackColor.rawValue)
+        rightImage.isUserInteractionEnabled = true
         rightImage.translatesAutoresizingMaskIntoConstraints = false
         return rightImage
     }()
@@ -82,17 +83,23 @@ class PhotosTableViewCell: UITableViewCell {
             collectionView.heightAnchor.constraint(equalToConstant: 95)
         ])
     }
-
+    
+    func setupCell(user: User?) {
+        self.user = user
+        collectionView.reloadData()
+    }
 }
 
 extension PhotosTableViewCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return user?.photos?.count ?? 0
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotosCollectionViewCell.identifier, for: indexPath) as? PhotosCollectionViewCell else { return collectionView.dequeueReusableCell(withReuseIdentifier: "defaultcell", for: indexPath)}
+        let photo = user?.photos?.allObjects[indexPath.row] as! Photo
+        cell.setupCell(photo: photo)
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
