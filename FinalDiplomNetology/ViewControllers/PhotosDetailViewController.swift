@@ -94,8 +94,21 @@ extension PhotosDetailViewController: UICollectionViewDataSource, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("Section - \(indexPath.section) - Item \(indexPath.item)")
+        print("Section OPS - \(indexPath.section) - Item \(indexPath.item)")
         collectionView.deselectItem(at: indexPath, animated: true)
+        let photo = user?.photos?.allObjects[indexPath.row] as? Photo
+        
+        let fullPhoto = UIImageView()
+        fullPhoto.image = UIImage(data: photo?.image ?? defaultImageData!)
+        fullPhoto.frame = UIScreen.main.bounds
+        fullPhoto.backgroundColor = UIColor(hexRGB: ColorType.LabelTextColor.textBlackColor.rawValue)
+        fullPhoto.contentMode = .scaleAspectFit
+        fullPhoto.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
+        fullPhoto.addGestureRecognizer(tap)
+            self.view.addSubview(fullPhoto)
+            self.navigationController?.isNavigationBarHidden = true
+            self.tabBarController?.tabBar.isHidden = true
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -104,5 +117,11 @@ extension PhotosDetailViewController: UICollectionViewDataSource, UICollectionVi
         let needed = collectionView.frame.width - (Constants.numberOfLine - 1) * spacing - insets.left - insets.right
         let itemwidth = floor(needed / Constants.numberOfLine)
         return CGSize(width: itemwidth, height: itemwidth)
+    }
+    
+    @objc private func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
+        self.navigationController?.isNavigationBarHidden = false
+            self.tabBarController?.tabBar.isHidden = false
+            sender.view?.removeFromSuperview()
     }
 }

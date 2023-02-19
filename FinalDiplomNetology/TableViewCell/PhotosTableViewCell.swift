@@ -36,7 +36,7 @@ class PhotosTableViewCell: UITableViewCell {
     }()
     
     private lazy var nameLb: CustomLabel = {
-        let label = CustomLabel(text: "Фотографии 15 штук", Fontname: FontTextType.bold.rawValue, Fontsize: 16, UIColorhexRGB: ColorType.LabelTextColor.textBlackColor.rawValue, lineHeightMultiple: 1.24, kern: 0.16)
+        let label = CustomLabel(text: "Фоток \(user?.photos?.count) штук", Fontname: FontTextType.bold.rawValue, Fontsize: 16, UIColorhexRGB: ColorType.LabelTextColor.textBlackColor.rawValue, lineHeightMultiple: 1.24, kern: 0.16)
         return label
     }()
         
@@ -79,7 +79,6 @@ class PhotosTableViewCell: UITableViewCell {
             collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            //MARK: Вопрос как установить автоматическую высоту коллекш вью
             collectionView.heightAnchor.constraint(equalToConstant: 95)
         ])
     }
