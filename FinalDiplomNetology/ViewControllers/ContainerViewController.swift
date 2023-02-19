@@ -86,13 +86,16 @@ extension ContainerViewController: SettingProfileViewControllerDelegate {
     
     private func addEditProfile() {
         let vc = editProfileVC
-        profileVC.addChild(vc)
-        profileVC.view.addSubview(vc.view)
-        vc.view.frame = view.frame
-        vc.didMove(toParent: profileVC)
-        profileVC.title = vc.title
-        profileVC.profileIDLabel.isHidden = true
+        //profileVC.addChild(vc)
         vc.user = profileVC.user
+        vc.modalPresentationStyle = .fullScreen
+        profileVC.present(vc, animated: true, completion: nil)
+//        profileVC.view.addSubview(vc.view)
+//        vc.view.frame = view.frame
+//        vc.didMove(toParent: profileVC)
+//        profileVC.title = vc.title
+//        profileVC.profileIDLabel.isHidden = true
+        
     }
     private func resetToProfile(){
         editProfileVC.removeChildVC()

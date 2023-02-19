@@ -51,15 +51,16 @@
         <attribute name="secondName" optional="YES" attributeType="String"/>
         <attribute name="uuID" optional="YES" attributeType="String"/>
         <relationship name="followers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Follower" inverseName="user" inverseEntity="Follower"/>
+        <relationship name="followers2" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="followers2" inverseEntity="User"/>
         <relationship name="photos" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Photo" inverseName="user" inverseEntity="Photo"/>
         <relationship name="posts" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Post" inverseName="user" inverseEntity="Post"/>
         <relationship name="subscribe" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Subscribe" inverseName="user" inverseEntity="Subscribe"/>
     </entity>
     <elements>
+        <element name="Follower" positionX="-318.8613891601562" positionY="161.0823974609375" width="128" height="193"/>
         <element name="Photo" positionX="-43.8665771484375" positionY="277.8750915527344" width="128" height="118"/>
         <element name="Post" positionX="-287.7689208984375" positionY="-74.1781005859375" width="128" height="148"/>
-        <element name="User" positionX="-60.062744140625" positionY="-65.27397155761719" width="128" height="238"/>
-        <element name="Follower" positionX="-318.8613891601562" positionY="161.0823974609375" width="128" height="193"/>
         <element name="Subscribe" positionX="-359.5708618164062" positionY="398.7530517578125" width="128" height="193"/>
+        <element name="User" positionX="-18.50238037109375" positionY="-65.29998779296875" width="128" height="253"/>
     </elements>
 </model>

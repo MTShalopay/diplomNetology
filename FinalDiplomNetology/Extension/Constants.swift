@@ -37,3 +37,4 @@ func transliterate(nonLatin: String) -> String {
 }
 
 let defaultImageData = UIImage(named: "logo")?.pngData()
+var globalUser: User?

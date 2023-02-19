@@ -135,11 +135,11 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let user = filteredUser[indexPath.row]
         let profileSubscriber = ProfileViewController()
-        
         profileSubscriber.navigationItem.leftItemsSupplementBackButton = true
-        DispatchQueue.main.async {
             profileSubscriber.user = user
-            guard let profileHeaderView = profileSubscriber.profileTableView.headerView(forSection: 0) as? ProfileHeaderView else { return }
+        
+        guard let profileHeaderView = profileSubscriber.tableView(profileSubscriber.profileTableView, viewForHeaderInSection: 0) as? ProfileHeaderView else {return}
+        
             profileHeaderView.profileImageView.isUserInteractionEnabled = false
             profileHeaderView.profileImageView.image = UIImage(data: user.avatar ?? defaultImageData!)
             profileHeaderView.nameLabel.text = "\(user.firstName!) \(user.secondName!)"
@@ -148,11 +148,11 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             profileHeaderView.subscribersButtonStack.isHidden = false
             profileHeaderView.horizontalButtonStack.isHidden = true
             
-            guard let searchNoteHeaderView = profileSubscriber.profileTableView.headerView(forSection: 1) as? SearchNoteHeaderView else {return}
+        guard let searchNoteHeaderView = profileSubscriber.tableView(profileSubscriber.profileTableView, viewForHeaderInSection: 1) as? SearchNoteHeaderView else {return}
+        
             searchNoteHeaderView.searchButton.isHidden = true
             searchNoteHeaderView.titleLabel.text = "Посты \(user.firstName ?? "")"
             profileSubscriber.profileTableView.reloadData()
-        }
         navigationController?.pushViewController(profileSubscriber, animated: true)
     }
 }

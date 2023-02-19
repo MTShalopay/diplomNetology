@@ -66,7 +66,10 @@ class ProfileViewController: UIViewController {
     
     private func setupView() {
         guard let mainTB = tabBarController as? MainTabBarController else {return}
-        user = mainTB.user
+        if user == nil {
+            user = mainTB.user
+        }
+        
         createNavigationController(isHidden: false)
         let settingBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "line.horizontal.3"), style: .done, target: self, action: #selector(settingTap))
         settingBarButtonItem.tintColor = UIColor(hexRGB: ColorType.LabelTextColor.textOrangeColor.rawValue)
@@ -137,6 +140,9 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             guard let profileHeader = tableView.dequeueReusableHeaderFooterView(withIdentifier: ProfileHeaderView.identifier) as? ProfileHeaderView else { return nil }
             profileHeader.user = user
             guard let user = user else {return nil}
+            
+            profileHeader.numberPublicationButton.setAttributedTitle(NSAttributedString(string: "\(user.posts?.count ?? 0)\nПубликаций", attributes: [ NSAttributedString.Key.kern: 1.06]), for: .normal)
+            
             profileHeader.nameLabel.text = "\(user.firstName ?? "Имя") \( user.secondName ?? "Фамилия")"
             profileHeader.professionLabel.text = "\(user.profession ?? "Профессия")"
             let defaultImageData = UIImage(named: "logo")?.pngData()

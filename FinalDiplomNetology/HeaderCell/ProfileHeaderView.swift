@@ -95,7 +95,7 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
         return stackView
     }()
     public lazy var numberPublicationButton: CustomButton = {
-        let button = CustomButton(title: "\(user?.posts?.count)\nпубликаций",
+        let button = CustomButton(title: "\nпубликаций",
                                   fontname: FontTextType.bold.rawValue,
                                   fontsize: 14,
                                   backGroundColor: ColorType.ViewColor.backGroundColorView.rawValue,
@@ -118,9 +118,9 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
                                   cornerRadius: 0,
                                   lineHeightMultiple: 1.18,
                                   kern: 0.16)
+        button.contentHorizontalAlignment = .center
         button.titleLabel?.numberOfLines = 0
         button.titleLabel?.textAlignment = .center
-        //button.addTarget(self, action: #selector(tapingButton), for: .touchUpInside)
         return button
     }()
     
@@ -133,9 +133,9 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
                                   cornerRadius: 0,
                                   lineHeightMultiple: 1.18,
                                   kern: 0.16)
+        button.contentHorizontalAlignment = .center
         button.titleLabel?.numberOfLines = 0
         button.titleLabel?.textAlignment = .center
-        //button.addTarget(self, action: #selector(tapingButton), for: .touchUpInside)
         return button
     }()
     
