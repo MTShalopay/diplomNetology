@@ -37,10 +37,17 @@ class PhotosDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if user == nil {
+            
+            user = CurrentUser
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         setupView()
     }
     private func setupView() {
-        createLoongTap()
         view.backgroundColor = UIColor(hexRGB: ColorType.ViewColor.backGroundColorView.rawValue)
         view.addSubview(collectionView)
         NSLayoutConstraint.activate([
@@ -51,19 +58,18 @@ class PhotosDetailViewController: UIViewController {
         ])
     }
     
-    @objc private func loongPressTaping(loongTap: UILongPressGestureRecognizer) {
-        let cgpoint = loongTap.location(in: collectionView)
-        guard let indexPath = collectionView.indexPathForItem(at: cgpoint) else {return}
-        if loongTap.state != UIGestureRecognizer.State.ended {
-            print("INDEXPATH: \(indexPath)")
-            createAlertController(indexPath: indexPath)
-        }
-    }
-    
     private func createLoongTap() {
         let loongTap = UILongPressGestureRecognizer(target: self, action: #selector(loongPressTaping))
         loongTap.minimumPressDuration = 2
         collectionView.addGestureRecognizer(loongTap)
+    }
+    
+    @objc private func loongPressTaping(loongTap: UILongPressGestureRecognizer) {
+        let cgpoint = loongTap.location(in: collectionView)
+        guard let indexPath = collectionView.indexPathForItem(at: cgpoint) else {return}
+        if loongTap.state != UIGestureRecognizer.State.ended {
+            createAlertController(indexPath: indexPath)
+        }
     }
     
     private func createAlertController(indexPath : IndexPath) {
@@ -89,6 +95,9 @@ extension PhotosDetailViewController: UICollectionViewDataSource, UICollectionVi
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotosCollectionViewCell.identifier, for: indexPath) as? PhotosCollectionViewCell else { return collectionView.dequeueReusableCell(withReuseIdentifier: "defaultcell", for: indexPath)}
         if let photo = user?.photos?.allObjects[indexPath.row] as? Photo {
             cell.setupCell(photo: photo)
+        }
+        if user?.uuID == CurrentUser?.uuID {
+            createLoongTap()
         }
         return cell
     }

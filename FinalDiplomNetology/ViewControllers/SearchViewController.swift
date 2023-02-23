@@ -89,7 +89,6 @@ class SearchViewController: UIViewController {
 extension SearchViewController: UISearchResultsUpdating, UISearchControllerDelegate {
     
     func updateSearchResults(for searchController: UISearchController) {
-        print(#function)
         filterContentForSearchText(searchController.searchBar.text!)
     }
     

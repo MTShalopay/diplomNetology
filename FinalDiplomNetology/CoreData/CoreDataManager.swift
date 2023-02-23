@@ -45,30 +45,7 @@ class CoreDataManager {
             }
         }
     }
-    /*
-//    MARK: fetchRequest CoreData
-//    var jokes: [Joke] {
-//        let fetchRequest: NSFetchRequest<Joke> = Joke.fetchRequest()
-//        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "dateCreate", ascending: false)]
-//        return (try? persistentContainer.viewContext.fetch(fetchRequest)) ?? []
-//    }
-//
-//    func createJoke(from JokeCodable: JokeCodable, completionHandler: ((_ error: String?)->Void)? ) {
-//        persistentContainer.performBackgroundTask { (context) in
-//            let joke = Joke(context: context)
-//            joke.uid = JokeCodable.id
-//            joke.text = JokeCodable.value
-//            joke.dateCreate = Date()
-//            do {
-//                try context.save()
-//                completionHandler?(nil)
-//            } catch {
-//                print("ERROR create Joke: \(error.localizedDescription)")
-//                completionHandler?("Joke ERROR: \(error.localizedDescription)")
-//            }
-//        }
-//    }
-    */
+
     func fetchChekNumberPhone(for numberPhone: String, comletion: ((User?) -> Void)?) -> Bool {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName:"User")
         request.predicate = NSPredicate(format: "numberPhone == %@", numberPhone)
@@ -173,21 +150,6 @@ class CoreDataManager {
         saveContext()
         return stories
     }
-    
-
-//    func getUser(by uuid: String) -> User {
-//        let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
-//        fetchRequest.predicate = NSPredicate(format: "uuID == %@", uuid)
-//        do {
-//            if let user = (try context.fetch(fetchRequest)).first {
-//                //print(user.uuID, user.numberPhone)
-//                return user
-//            }
-//        } catch let error {
-//            print(error)
-//        }
-//        return User()
-//    }
 
     func deleteUser(user: User) {
         persistentContainer.viewContext.delete(user)
@@ -200,7 +162,6 @@ class CoreDataManager {
         saveContext()
         print("Удалили пост")
     }
-    
     
     func deletePhoto(photo: Photo) {
         persistentContainer.viewContext.delete(photo)

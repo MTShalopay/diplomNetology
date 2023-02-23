@@ -11,6 +11,7 @@ import CoreData
 class MainViewController: UIViewController {
     var coreDataManager = CoreDataManager.shared
     var user: User?
+    var postsArray = [Post?]()
     enum menuItem: String, CaseIterable {
         case news = "Новости"
         case foryou = "Для вас"
@@ -82,6 +83,13 @@ class MainViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupView()
+        mainTableView.reloadData()
+        postsArray.removeAll()
+        CurrentUser?.subscriptions?.allObjects.forEach({ (subscription) in
+            (subscription as! User).posts?.allObjects.forEach({ (post) in
+                postsArray.append(post as? Post)
+            })
+        })
     }
     
     private func setupView() {
@@ -149,7 +157,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         case 0:
             return 1
         case 1:
-            return 5
+            return postsArray.count
         default:
             return 0
         }
@@ -162,6 +170,9 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as? PostTableViewCell else { return UITableViewCell(frame: .zero) }
+            if let post = postsArray[indexPath.row] {
+                cell.setupCell(post: post)
+            }
             return cell
         default:
             return UITableViewCell(frame: .zero)
@@ -169,20 +180,10 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("SECTION \(indexPath.section) - ROW \(indexPath.row)")
+        let post = postsArray[indexPath.row]
         let profileSubscriber = ProfileViewController()
         profileSubscriber.navigationItem.leftItemsSupplementBackButton = true
-        guard let profileHeaderView = profileSubscriber.tableView(profileSubscriber.profileTableView, viewForHeaderInSection: 0) as? ProfileHeaderView else {return}
-            profileHeaderView.editButton.isHidden = true
-            profileHeaderView.subscribersButtonStack.isHidden = false
-            
-            guard let searchNoteHeaderView = profileSubscriber.tableView(profileSubscriber.profileTableView, viewForHeaderInSection: 1) as? SearchNoteHeaderView else {return }
-            searchNoteHeaderView.searchButton.isHidden = true
-            searchNoteHeaderView.titleLabel.text = "Посты Максима"
-            
-            let settingBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .done, target: self, action: #selector(self.menuTap))
-            settingBarButtonItem.tintColor = UIColor(hexRGB: ColorType.LabelTextColor.textOrangeColor.rawValue)
-            profileSubscriber.navigationItem.rightBarButtonItem = settingBarButtonItem
+        profileSubscriber.user = post?.user
         
         navigationController?.pushViewController(profileSubscriber, animated: true)
     }

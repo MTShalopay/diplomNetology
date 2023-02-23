@@ -172,6 +172,22 @@ extension SubscriptionViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        let profileSubscriber = ProfileViewController()
+        profileSubscriber.navigationItem.leftItemsSupplementBackButton = true
+            //profileSubscriber.user = user
+        
+        
+        switch subscriptionSegmentControl.selectedSegmentIndex {
+        case 0:
+            let follower = followers[indexPath.row]
+            profileSubscriber.user = follower
+        case 1:
+            let subscription = subscriptions[indexPath.row]
+            profileSubscriber.user = subscription
+        default:
+            break
+        }
+        navigationController?.pushViewController(profileSubscriber, animated: true)
     }
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         true
