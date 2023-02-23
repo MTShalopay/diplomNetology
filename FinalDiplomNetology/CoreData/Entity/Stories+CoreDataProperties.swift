@@ -1,5 +1,5 @@
 //
-//  Photo+CoreDataProperties.swift
+//  Stories+CoreDataProperties.swift
 //  FinalDiplomNetology
 //
 //  Created by Shalopay on 20.02.2023.
@@ -10,10 +10,10 @@ import Foundation
 import CoreData
 
 
-extension Photo {
+extension Stories {
 
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<Photo> {
-        return NSFetchRequest<Photo>(entityName: "Photo")
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<Stories> {
+        return NSFetchRequest<Stories>(entityName: "Stories")
     }
 
     @NSManaged public var date: Date?
@@ -22,6 +22,6 @@ extension Photo {
 
 }
 
-extension Photo : Identifiable {
+extension Stories : Identifiable {
 
 }

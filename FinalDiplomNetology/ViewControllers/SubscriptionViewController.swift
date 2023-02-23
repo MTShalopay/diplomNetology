@@ -6,11 +6,13 @@
 //
 
 import UIKit
+import CoreData
 
 class SubscriptionViewController: UIViewController {
-    
+    var coreDataManager = CoreDataManager.shared
     private let segmenItems = ["Подписчики","Подписки"]
-    private lazy var subscriptionSegmentControl: UISegmentedControl = {
+    
+    public lazy var subscriptionSegmentControl: UISegmentedControl = {
        let segmentedControl = UISegmentedControl(items: segmenItems)
         segmentedControl.selectedSegmentIndex = 0
         segmentedControl.addTarget(self, action: #selector(updateTableView), for: .valueChanged)
@@ -41,8 +43,16 @@ class SubscriptionViewController: UIViewController {
         return searchController.isActive && !searchBarIsEmpty
     }
     
-    private let leftArray = ["0","0","0","0","0","0","0","0"]
-    private let rightArray = ["1","1","1","1","1","1","1","1"]
+//    private lazy var fetchResultController: NSFetchedResultsController<NSFetchRequestResult> = {
+//        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
+//        let sortDescription = NSSortDescriptor(key: "firstName", ascending: true)
+//        fetchRequest.sortDescriptors = [sortDescription]
+//        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: coreDataManager.context, sectionNameKeyPath: nil, cacheName: nil)
+//        return frc
+//    }()
+    
+    private var followers = [User]()
+    private var subscriptions = [User]()
     
     private lazy var subscriptTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -65,6 +75,31 @@ class SubscriptionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+//        do {
+//            try fetchResultController.performFetch()
+//        } catch let error {
+//            print("ERROR searchViewController: \(error)")
+//        }
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+//        print("================================")
+//        for followers in fetchResultController.fetchedObjects as! [User] {
+//            print(followers.followers?.count, followers.followers)
+//        }
+//        print("================================")
+//        for subscriptions in fetchResultController.fetchedObjects as! [User] {
+//            print(subscriptions.subscriptions?.count, subscriptions.subscriptions)
+//        }
+//        print("================================")
+        for object in CurrentUser?.followers?.allObjects as! [User] {
+            print("Имя подписчика: \(object.firstName) Телефон подписчика: \(object.numberPhone)")
+        }
+        for object in CurrentUser?.subscriptions?.allObjects as! [User] {
+            print("Имя подиски: \(object.firstName) Телефон подписки: \(object.numberPhone)")
+        }
+        followers = CurrentUser?.followers?.allObjects as! [User]
+        subscriptions = CurrentUser?.subscriptions?.allObjects as! [User]
     }
     
     private func setupView() {
@@ -97,10 +132,10 @@ extension SubscriptionViewController: UITableViewDelegate, UITableViewDataSource
         var returnValue = 0
         switch subscriptionSegmentControl.selectedSegmentIndex {
         case 0:
-            returnValue = leftArray.count
+            returnValue = followers.count
             break
         case 1:
-            returnValue = rightArray.count
+            returnValue = subscriptions.count
             break
         default:
             break
@@ -110,16 +145,20 @@ extension SubscriptionViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchViewCell.identifier, for: indexPath) as? SearchViewCell else { return UITableViewCell(frame: .zero)}
-//        switch subscriptionSegmentControl.selectedSegmentIndex {
-//        case 0:
-//            cell.textLabel?.text = leftArray[indexPath.row]
-//            break
-//        case 1:
-//            cell.textLabel?.text = rightArray[indexPath.row]
-//            break
-//        default:
-//            break
-//        }
+        switch subscriptionSegmentControl.selectedSegmentIndex {
+        case 0:
+            //подписчики
+            let follower = followers[indexPath.row]
+            cell.setupCell(user: follower)
+            break
+        case 1:
+            //подписки
+            let subscription = subscriptions[indexPath.row]
+            cell.setupCell(user: subscription)
+            break
+        default:
+            break
+        }
         return cell
     }
     
@@ -134,8 +173,35 @@ extension SubscriptionViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
-    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        true
+    }
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        switch editingStyle {
+        case .delete:
+            switch subscriptionSegmentControl.selectedSegmentIndex {
+            case 0:
+                if let follower = CurrentUser?.followers?.allObjects[indexPath.row] as? User {
+                    CurrentUser?.removeFromSubscriptions(follower)
+                    followers.remove(at: indexPath.row)
+                    coreDataManager.saveContext()
+                    tableView.deleteRows(at: [indexPath], with: .automatic)
+                }
+            case 1:
+                if let subscription = CurrentUser?.subscriptions?.allObjects[indexPath.row] as? User {
+                    CurrentUser?.removeFromSubscriptions(subscription)
+                    subscriptions.remove(at: indexPath.row)
+                    coreDataManager.saveContext()
+                    tableView.deleteRows(at: [indexPath], with: .automatic)
+                }
+            default:
+                break
+            }
+        @unknown default:
+            break
+        }
+    }
 }
 
 extension SubscriptionViewController: UISearchResultsUpdating, UISearchControllerDelegate {

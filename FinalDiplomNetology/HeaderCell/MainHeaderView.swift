@@ -16,7 +16,7 @@ class MainHeaderView: UITableViewHeaderFooterView {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    private lazy var dateTitleLabel: CustomLabel = {
+    public lazy var dateTitleLabel: CustomLabel = {
         let label = CustomLabel(text: "13 июня", Fontname: FontTextType.medium.rawValue, Fontsize: 14, UIColorhexRGB: ColorType.LabelTextColor.textDescriptionColor.rawValue, lineHeightMultiple: 1.18, kern: 0.14)
         label.layer.borderWidth = 1
         label.layer.borderColor = UIColor(hexRGB: ColorType.LabelTextColor.textBlackColor.rawValue)?.cgColor

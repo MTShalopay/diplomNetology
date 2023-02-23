@@ -9,7 +9,6 @@ import UIKit
 import CoreData
 
 class SearchViewController: UIViewController {
-    
     private var filteredUser = [User]()
     var users = [User]()
     var coreDataManager = CoreDataManager.shared
@@ -66,13 +65,8 @@ class SearchViewController: UIViewController {
         } catch let error {
             print("ERROR searchViewController: \(error)")
         }
-        
-//        for object in fetchResultController.fetchedObjects as! [User] {
-//            print("================")
-//            print("ZZZ: \(object.uuID) \(object.numberPhone) \(object.password) \(object.firstName) \(object.dayBirth)")
-//            print("================")
-//        }
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         users = fetchResultController.fetchedObjects as! [User]
@@ -137,22 +131,6 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         let profileSubscriber = ProfileViewController()
         profileSubscriber.navigationItem.leftItemsSupplementBackButton = true
             profileSubscriber.user = user
-        
-        guard let profileHeaderView = profileSubscriber.tableView(profileSubscriber.profileTableView, viewForHeaderInSection: 0) as? ProfileHeaderView else {return}
-        
-            profileHeaderView.profileImageView.isUserInteractionEnabled = false
-            profileHeaderView.profileImageView.image = UIImage(data: user.avatar ?? defaultImageData!)
-            profileHeaderView.nameLabel.text = "\(user.firstName!) \(user.secondName!)"
-            profileHeaderView.professionLabel.text = user.profession
-            profileHeaderView.editButton.isHidden = true
-            profileHeaderView.subscribersButtonStack.isHidden = false
-            profileHeaderView.horizontalButtonStack.isHidden = true
-            
-        guard let searchNoteHeaderView = profileSubscriber.tableView(profileSubscriber.profileTableView, viewForHeaderInSection: 1) as? SearchNoteHeaderView else {return}
-        
-            searchNoteHeaderView.searchButton.isHidden = true
-            searchNoteHeaderView.titleLabel.text = "Посты \(user.firstName ?? "")"
-            profileSubscriber.profileTableView.reloadData()
         navigationController?.pushViewController(profileSubscriber, animated: true)
     }
 }

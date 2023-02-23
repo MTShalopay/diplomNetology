@@ -86,16 +86,8 @@ extension ContainerViewController: SettingProfileViewControllerDelegate {
     
     private func addEditProfile() {
         let vc = editProfileVC
-        //profileVC.addChild(vc)
-        vc.user = profileVC.user
         vc.modalPresentationStyle = .fullScreen
-        profileVC.present(vc, animated: true, completion: nil)
-//        profileVC.view.addSubview(vc.view)
-//        vc.view.frame = view.frame
-//        vc.didMove(toParent: profileVC)
-//        profileVC.title = vc.title
-//        profileVC.profileIDLabel.isHidden = true
-        
+        profileVC.present(vc, animated: true, completion: nil)        
     }
     private func resetToProfile(){
         editProfileVC.removeChildVC()
@@ -103,6 +95,7 @@ extension ContainerViewController: SettingProfileViewControllerDelegate {
         profileVC.profileIDLabel.isHidden = false
     }
     private func goToOnBoardVC() {
+        currentUserUID = nil
         let vc = UINavigationController(rootViewController: onBoardingVC)
         vc.modalTransitionStyle = .flipHorizontal
         vc.modalPresentationStyle = .fullScreen

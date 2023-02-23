@@ -9,9 +9,14 @@ import UIKit
 import CoreData
 
 class OnBoardingRegisterStepFinish: UIViewController {
+    enum RegisterType {
+        case registered
+        case entered
+    }
     var coreDataManager = CoreDataManager.shared
     var myPhoneNumber: String?
-    var user: User?
+    var registerType: RegisterType = .registered
+    
     public lazy var textTitleLabel: CustomLabel = {
         let label = CustomLabel(text: "Подтверждение регистрации", Fontname: FontTextType.medium.rawValue, Fontsize: 22, UIColorhexRGB: ColorType.LabelTextColor.textOrangeColor.rawValue, lineHeightMultiple: 0, kern: 0.18)
         return label
@@ -110,19 +115,33 @@ class OnBoardingRegisterStepFinish: UIViewController {
         ])
     }
     @objc public func registrationAction() {
-        user?.password = smsTextField.text!
-        coreDataManager.saveContext()
         let mainTB = MainTabBarController()
-            mainTB.user = user
             mainTB.modalTransitionStyle = .flipHorizontal
             mainTB.modalPresentationStyle = .fullScreen
+        switch registerType {
+        case .registered:
+            print("REGISTERED")
+            CurrentUser?.password = smsTextField.text!
+            currentUserUID = CurrentUser?.uuID
+            coreDataManager.saveContext()
+        case .entered:
+            currentUserUID = CurrentUser?.uuID
+            print("ENTERED")
+            if coreDataManager.verificationUserPassword(password:smsTextField.text!) == true {
+                let alertController = UIAlertController(title: "ОШИБКА ВХОДА", message: "Введите верный пароль", preferredStyle: .alert)
+                let cancelAction = UIAlertAction(title: "Понятно", style: .cancel, handler: nil)
+                alertController.addAction(cancelAction)
+                present(alertController, animated: true, completion: nil)
+                return
+            }
+            break
+        }
         navigationController?.present(mainTB, animated: true, completion: nil)
     }
 }
 extension OnBoardingRegisterStepFinish: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        print(textField.text)
         return true
     }
 }

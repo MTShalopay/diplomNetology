@@ -6,11 +6,14 @@
 //
 
 import UIKit
+import CoreData
 
 class ProfileHeaderView: UITableViewHeaderFooterView {
+    
+    var coreDataManager = CoreDataManager.shared
     static var identifier = "ProfileHeaderView"
     var user: User?
-    
+    let userDefaults = UserDefaults.standard
     
     public lazy var profileImageView: UIImageView = {
        let imageView = UIImageView(image: UIImage(named: "logo"))
@@ -58,6 +61,7 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
                                   cornerRadius: 10,
                                   lineHeightMultiple: 0,
                                   kern: 0.16)
+        button.isHidden = false
         button.titleLabel?.textAlignment = .center
         return button
     }()
@@ -118,6 +122,7 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
                                   cornerRadius: 0,
                                   lineHeightMultiple: 1.18,
                                   kern: 0.16)
+        button.tag = 1
         button.contentHorizontalAlignment = .center
         button.titleLabel?.numberOfLines = 0
         button.titleLabel?.textAlignment = .center
@@ -133,6 +138,7 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
                                   cornerRadius: 0,
                                   lineHeightMultiple: 1.18,
                                   kern: 0.16)
+        button.tag = 0
         button.contentHorizontalAlignment = .center
         button.titleLabel?.numberOfLines = 0
         button.titleLabel?.textAlignment = .center
@@ -277,12 +283,19 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
     }
     
     @objc private func changeTitleButton(sender: CustomButton) {
-        sender.isSelected = !sender.isSelected
-        if sender.isSelected {
-            sender.setAttributedTitle(NSAttributedString(string: "Отписаться", attributes: [NSAttributedString.Key.kern: 0.16]), for: .normal)
-            print(user?.firstName, user?.uuID, user?.secondName, user?.profession)
+        guard let user = user else {return print("NIL USER")}
+        CurrentUser?.changeSubscribeState(for: user)
+        setSubscribeButtonText()
+        numberFoloversButton.setAttributedTitle(NSAttributedString(string: "\(user.followers?.count ?? 0)\nподписчиков", attributes: [ NSAttributedString.Key.kern: 1.06]), for: .normal)
+    }
+    
+    func setSubscribeButtonText() {
+        guard let user = user, let CurrentUser = CurrentUser else {return print("NIL USER")}
+        
+        if user.isFollower(user: CurrentUser) == true {
+            subscriberButton.setAttributedTitle(NSAttributedString(string: "Отписаться", attributes: [ NSAttributedString.Key.kern: 1.06]), for: .normal)
         } else {
-            sender.setAttributedTitle(NSAttributedString(string: "Подписаться", attributes: [NSAttributedString.Key.kern: 0.16]), for: .normal)
+            subscriberButton.setAttributedTitle(NSAttributedString(string: "Подписаться", attributes: [ NSAttributedString.Key.kern: 1.06]), for: .normal)
         }
     }
     

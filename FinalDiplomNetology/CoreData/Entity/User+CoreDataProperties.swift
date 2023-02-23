@@ -2,7 +2,7 @@
 //  User+CoreDataProperties.swift
 //  FinalDiplomNetology
 //
-//  Created by Shalopay on 17.02.2023.
+//  Created by Shalopay on 22.02.2023.
 //
 //
 
@@ -25,10 +25,28 @@ extension User {
     @NSManaged public var profession: String?
     @NSManaged public var secondName: String?
     @NSManaged public var uuID: String?
+    @NSManaged public var followers: NSSet?
     @NSManaged public var photos: NSSet?
     @NSManaged public var posts: NSSet?
-    @NSManaged public var followers: NSSet?
-    @NSManaged public var subscribe: NSSet?
+    @NSManaged public var stories: Stories?
+    @NSManaged public var subscriptions: NSSet?
+
+}
+
+// MARK: Generated accessors for followers
+extension User {
+
+    @objc(addFollowersObject:)
+    @NSManaged public func addToFollowers(_ value: User)
+
+    @objc(removeFollowersObject:)
+    @NSManaged public func removeFromFollowers(_ value: User)
+
+    @objc(addFollowers:)
+    @NSManaged public func addToFollowers(_ values: NSSet)
+
+    @objc(removeFollowers:)
+    @NSManaged public func removeFromFollowers(_ values: NSSet)
 
 }
 
@@ -66,37 +84,20 @@ extension User {
 
 }
 
-// MARK: Generated accessors for followers
+// MARK: Generated accessors for subscriptions
 extension User {
 
-    @objc(addFollowersObject:)
-    @NSManaged public func addToFollowers(_ value: Follower)
+    @objc(addSubscriptionsObject:)
+    @NSManaged public func addToSubscriptions(_ value: User)
 
-    @objc(removeFollowersObject:)
-    @NSManaged public func removeFromFollowers(_ value: Follower)
+    @objc(removeSubscriptionsObject:)
+    @NSManaged public func removeFromSubscriptions(_ value: User)
 
-    @objc(addFollowers:)
-    @NSManaged public func addToFollowers(_ values: NSSet)
+    @objc(addSubscriptions:)
+    @NSManaged public func addToSubscriptions(_ values: NSSet)
 
-    @objc(removeFollowers:)
-    @NSManaged public func removeFromFollowers(_ values: NSSet)
-
-}
-
-// MARK: Generated accessors for subscribe
-extension User {
-
-    @objc(addSubscribeObject:)
-    @NSManaged public func addToSubscribe(_ value: Subscribe)
-
-    @objc(removeSubscribeObject:)
-    @NSManaged public func removeFromSubscribe(_ value: Subscribe)
-
-    @objc(addSubscribe:)
-    @NSManaged public func addToSubscribe(_ values: NSSet)
-
-    @objc(removeSubscribe:)
-    @NSManaged public func removeFromSubscribe(_ values: NSSet)
+    @objc(removeSubscriptions:)
+    @NSManaged public func removeFromSubscriptions(_ values: NSSet)
 
 }
 

@@ -34,6 +34,10 @@ class StoriesCollectionViewCell: UICollectionViewCell {
             storiesImageView.widthAnchor.constraint(equalToConstant: 60),
         ])
     }
+    func setupCell(stories: Stories) {
+        guard let stories = stories.image else { return print("OPS")}
+        storiesImageView.image = UIImage(data: stories)
+    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

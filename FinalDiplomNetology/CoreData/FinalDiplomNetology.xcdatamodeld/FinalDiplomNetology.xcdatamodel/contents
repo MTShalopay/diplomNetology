@@ -1,22 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17511" systemVersion="20B50" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="Follower" representedClassName="Follower" syncable="YES">
-        <attribute name="avatar" optional="YES" attributeType="Binary"/>
-        <attribute name="city" optional="YES" attributeType="String"/>
-        <attribute name="dayBirth" optional="YES" attributeType="String"/>
-        <attribute name="firstName" optional="YES" attributeType="String"/>
-        <attribute name="numberPhone" optional="YES" attributeType="String"/>
-        <attribute name="profession" optional="YES" attributeType="String"/>
-        <attribute name="secondName" optional="YES" attributeType="String"/>
-        <attribute name="state" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <relationship name="photos" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Photo" inverseName="follower" inverseEntity="Photo"/>
-        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="followers" inverseEntity="User"/>
-    </entity>
     <entity name="Photo" representedClassName="Photo" syncable="YES">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="image" optional="YES" attributeType="Binary"/>
-        <relationship name="follower" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Follower" inverseName="photos" inverseEntity="Follower"/>
-        <relationship name="subscribe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Subscribe" inverseName="photos" inverseEntity="Subscribe"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="photos" inverseEntity="User"/>
     </entity>
     <entity name="Post" representedClassName="Post" syncable="YES">
@@ -28,17 +14,10 @@
         <attribute name="text" optional="YES" attributeType="String"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="posts" inverseEntity="User"/>
     </entity>
-    <entity name="Subscribe" representedClassName="Subscribe" syncable="YES">
-        <attribute name="avatar" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="city" optional="YES" attributeType="String"/>
-        <attribute name="dayBirth" optional="YES" attributeType="String"/>
-        <attribute name="firstName" optional="YES" attributeType="String"/>
-        <attribute name="numberPhone" optional="YES" attributeType="String"/>
-        <attribute name="profession" optional="YES" attributeType="String"/>
-        <attribute name="secondName" optional="YES" attributeType="String"/>
-        <attribute name="state" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <relationship name="photos" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Photo" inverseName="subscribe" inverseEntity="Photo"/>
-        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="subscribe" inverseEntity="User"/>
+    <entity name="Stories" representedClassName="Stories" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="image" optional="YES" attributeType="Binary"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="stories" inverseEntity="User"/>
     </entity>
     <entity name="User" representedClassName="User" syncable="YES">
         <attribute name="avatar" optional="YES" attributeType="Binary"/>
@@ -50,17 +29,16 @@
         <attribute name="profession" optional="YES" attributeType="String"/>
         <attribute name="secondName" optional="YES" attributeType="String"/>
         <attribute name="uuID" optional="YES" attributeType="String"/>
-        <relationship name="followers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Follower" inverseName="user" inverseEntity="Follower"/>
-        <relationship name="followers2" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="followers2" inverseEntity="User"/>
+        <relationship name="followers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="subscriptions" inverseEntity="User"/>
         <relationship name="photos" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Photo" inverseName="user" inverseEntity="Photo"/>
         <relationship name="posts" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Post" inverseName="user" inverseEntity="Post"/>
-        <relationship name="subscribe" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Subscribe" inverseName="user" inverseEntity="Subscribe"/>
+        <relationship name="stories" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Stories" inverseName="user" inverseEntity="Stories"/>
+        <relationship name="subscriptions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="followers" inverseEntity="User"/>
     </entity>
     <elements>
-        <element name="Follower" positionX="-318.8613891601562" positionY="161.0823974609375" width="128" height="193"/>
-        <element name="Photo" positionX="-43.8665771484375" positionY="277.8750915527344" width="128" height="118"/>
-        <element name="Post" positionX="-287.7689208984375" positionY="-74.1781005859375" width="128" height="148"/>
-        <element name="Subscribe" positionX="-359.5708618164062" positionY="398.7530517578125" width="128" height="193"/>
-        <element name="User" positionX="-18.50238037109375" positionY="-65.29998779296875" width="128" height="253"/>
+        <element name="Photo" positionX="-333.5053100585938" positionY="158.7995910644531" width="128" height="88"/>
+        <element name="Post" positionX="-269.6025390625" positionY="268.7708282470703" width="128" height="148"/>
+        <element name="Stories" positionX="-41.82916259765625" positionY="290.1815795898438" width="128" height="74"/>
+        <element name="User" positionX="-18.50238037109375" positionY="-65.29998779296875" width="128" height="239"/>
     </elements>
 </model>

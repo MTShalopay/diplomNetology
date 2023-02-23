@@ -190,7 +190,6 @@ class PostTableViewCell: UITableViewCell {
     }
     
     public func setupCell(post: Post) {
-        let defaultImageData = UIImage(named: "logo")?.pngData()
         logoImageView.image = UIImage(data: post.user?.avatar ?? defaultImageData!)
         nameLabel.text = "\(post.user?.firstName ?? "Имя") \( post.user?.secondName ?? "Фамилия")"
         professionLabel.text = post.user?.profession ?? "профессия"

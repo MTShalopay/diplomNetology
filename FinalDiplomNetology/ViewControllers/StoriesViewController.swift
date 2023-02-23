@@ -8,6 +8,8 @@
 import UIKit
 
 class StoriesViewController: UIViewController {
+    var coreDataManager = CoreDataManager.shared
+    var storiesData: Data?
     
     public lazy var storiesImageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
@@ -79,5 +81,10 @@ class StoriesViewController: UIViewController {
     
     @objc private func pushStories() {
         print(#function)
+        guard let storiesData = storiesData else {return}
+        let stories = coreDataManager.createStories(storiesData:storiesData)
+        CurrentUser?.stories = stories
+        coreDataManager.saveContext()
+        dismiss(animated: true, completion: nil)
     }
 }

@@ -11,15 +11,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.windowScene = windowScene
         let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
         print(paths[0])
-//        window?.rootViewController = MainTabBarController()
-        window?.rootViewController = UINavigationController(rootViewController: OnBoardingStart())
+        
+        CoreDataManager.shared.getUser()
+        if CurrentUser != nil {
+            window?.rootViewController = MainTabBarController()
+        } else {
+            window?.rootViewController = UINavigationController(rootViewController: OnBoardingStart())
+        }
+        //CoreDataManager.shared.deleteAllFollowers()
         //CoreDataManager.shared.deleteAllUser()
         //CoreDataManager.shared.deleteAllPhoto()
         window?.overrideUserInterfaceStyle = .light

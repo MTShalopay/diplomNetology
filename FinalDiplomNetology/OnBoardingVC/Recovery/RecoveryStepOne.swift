@@ -94,37 +94,35 @@ class RecoveryStepOne: UIViewController {
         let vc = OnBoardingRegisterStepFinish()
         vc.textTitleLabel.isHidden = true
         vc.myPhoneNumber = myPhoneNumber
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName:"User")
-        request.predicate = NSPredicate(format: "numberPhone == %@", myPhoneNumber)
-        do {
-            let result = try CoreDataManager.shared.persistentContainer.viewContext.fetch(request) as! [User]
-            if result.count == 0 {
+        vc.registerType = .entered
+        vc.registerButton.setAttributedTitle(NSAttributedString(string: "Войти", attributes: [NSAttributedString.Key.kern : 0.16]), for: .normal)
+        coreDataManager.chekcUser(for: myPhoneNumber) { (user) in
+            if user != nil {
+                CurrentUser = user
+            } else {
                 let alertController = UIAlertController(title: "ОШИБКА ВХОДА", message: "Проверте пожалуйста правильность ввода своего номера телефона", preferredStyle: .alert)
                 let cancelAction = UIAlertAction(title: "Понятно", style: .cancel, handler: nil)
                 alertController.addAction(cancelAction)
-                present(alertController, animated: true, completion: nil)
+                self.present(alertController, animated: true, completion: nil)
+                return
             }
-            user = result.first
-        } catch let error {
-            print(error)
         }
-        vc.registerButton = CustomButton(title: "Войти",
-                                         fontname: FontTextType.regular.rawValue,
-                                         fontsize: 19,
-                                         backGroundColor: ColorType.ButtonColor.buttonBackGroundBlackColor.rawValue,
-                                         textColor: ColorType.LabelTextColor.textWhiteColor.rawValue,
-                                         cornerRadius: 10,
-                                         lineHeightMultiple: 0,
-                                         kern: 0.16)
-        vc.registerButton.addTarget(self, action: #selector(enterAction), for: .touchUpInside)
+//        let request = NSFetchRequest<NSFetchRequestResult>(entityName:"User")
+//        request.predicate = NSPredicate(format: "numberPhone == %@", myPhoneNumber)
+//        do {
+//            let result = try CoreDataManager.shared.persistentContainer.viewContext.fetch(request) as! [User]
+//            if result.count == 0 {
+//                let alertController = UIAlertController(title: "ОШИБКА ВХОДА", message: "Проверте пожалуйста правильность ввода своего номера телефона", preferredStyle: .alert)
+//                let cancelAction = UIAlertAction(title: "Понятно", style: .cancel, handler: nil)
+//                alertController.addAction(cancelAction)
+//                present(alertController, animated: true, completion: nil)
+//                return
+//            }
+//            CurrentUser = result.first
+//        } catch let error {
+//            print(error)
+//        }
         navigationController?.pushViewController(vc, animated: true)
-    }
-    @objc private func enterAction(sender: CustomButton) {
-        let mainTB = MainTabBarController()
-        mainTB.user = user
-        mainTB.modalTransitionStyle = .flipHorizontal
-        mainTB.modalPresentationStyle = .fullScreen
-        navigationController?.present(mainTB, animated: true, completion: nil)
     }
 }
 

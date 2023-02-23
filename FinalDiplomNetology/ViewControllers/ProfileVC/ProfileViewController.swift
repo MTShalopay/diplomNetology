@@ -59,17 +59,15 @@ class ProfileViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        if user == nil {
+            user = CurrentUser
+        }
         setupView()
         profileTableView.reloadData()
     }
     
     
     private func setupView() {
-        guard let mainTB = tabBarController as? MainTabBarController else {return}
-        if user == nil {
-            user = mainTB.user
-        }
-        
         createNavigationController(isHidden: false)
         let settingBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "line.horizontal.3"), style: .done, target: self, action: #selector(settingTap))
         settingBarButtonItem.tintColor = UIColor(hexRGB: ColorType.LabelTextColor.textOrangeColor.rawValue)
@@ -139,9 +137,14 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         case 0:
             guard let profileHeader = tableView.dequeueReusableHeaderFooterView(withIdentifier: ProfileHeaderView.identifier) as? ProfileHeaderView else { return nil }
             profileHeader.user = user
+            profileHeader.setSubscribeButtonText()
             guard let user = user else {return nil}
             
-            profileHeader.numberPublicationButton.setAttributedTitle(NSAttributedString(string: "\(user.posts?.count ?? 0)\nПубликаций", attributes: [ NSAttributedString.Key.kern: 1.06]), for: .normal)
+            profileHeader.numberPublicationButton.setAttributedTitle(NSAttributedString(string: "\(user.posts?.count ?? 0)\nпубликаций", attributes: [ NSAttributedString.Key.kern: 1.06]), for: .normal)
+            
+            profileHeader.numberFoloversButton.setAttributedTitle(NSAttributedString(string: "\(user.followers?.count ?? 0)\nподписчиков", attributes: [ NSAttributedString.Key.kern: 1.06]), for: .normal)
+            
+            profileHeader.numberSubscriptionsButton.setAttributedTitle(NSAttributedString(string: "\(user.subscriptions?.count ?? 0)\nподписок", attributes: [ NSAttributedString.Key.kern: 1.06]), for: .normal)
             
             profileHeader.nameLabel.text = "\(user.firstName ?? "Имя") \( user.secondName ?? "Фамилия")"
             profileHeader.professionLabel.text = "\(user.profession ?? "Профессия")"
@@ -164,14 +167,39 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             
             profileHeader.numberFoloversButton.addTarget(self, action: #selector(goToSubscription), for: .touchUpInside)
             
+            if user.uuID == CurrentUser?.uuID {
+                profileHeader.profileImageView.isUserInteractionEnabled = true
+                profileHeader.profileImageView.image = UIImage(data: user.avatar ?? defaultImageData!)
+                profileHeader.nameLabel.text = "\(user.firstName ?? "Имя") \(user.secondName ?? "Фамилия")"
+                profileHeader.professionLabel.text = user.profession
+                profileHeader.editButton.isHidden = false
+                profileHeader.subscribersButtonStack.isHidden = true
+                profileHeader.horizontalButtonStack.isHidden = false
+            } else {
+                profileHeader.profileImageView.isUserInteractionEnabled = false
+                profileHeader.profileImageView.image = UIImage(data: user.avatar ?? defaultImageData!)
+                profileHeader.nameLabel.text = "\(user.firstName ?? "Имя") \(user.secondName ?? "Фамилия")"
+                profileHeader.professionLabel.text = user.profession
+                profileHeader.editButton.isHidden = true
+                profileHeader.subscribersButtonStack.isHidden = false
+                profileHeader.horizontalButtonStack.isHidden = true
+            }
                 return profileHeader
         case 1:
-            guard let headerTwo = tableView.dequeueReusableHeaderFooterView(withIdentifier: SearchNoteHeaderView.identifier) as? SearchNoteHeaderView else { return nil }
-                return headerTwo
+            guard let searchNoteHeaderView = tableView.dequeueReusableHeaderFooterView(withIdentifier: SearchNoteHeaderView.identifier) as? SearchNoteHeaderView else { return nil }
+            
+            if user?.uuID == CurrentUser?.uuID {
+                searchNoteHeaderView.searchButton.isHidden = false
+            } else {
+                searchNoteHeaderView.searchButton.isHidden = true
+                searchNoteHeaderView.titleLabel.attributedText = NSAttributedString(string: "Посты \(user?.firstName ?? "")", attributes: [ NSAttributedString.Key.kern: 0.16])
+            }
+                return searchNoteHeaderView
         default:
             return nil
         }
     }
+    
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         if indexPath.section == 0 {
@@ -192,10 +220,14 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    @objc private func goToSubscription() {
-        print(#function)
+    @objc private func goToSubscription(sender: UIButton) {
         let subscriptionViewController = SubscriptionViewController()
         subscriptionViewController.title = "\(user?.firstName ?? "")"
+        if sender.tag == 0 {
+            subscriptionViewController.subscriptionSegmentControl.selectedSegmentIndex = 0
+        } else {
+            subscriptionViewController.subscriptionSegmentControl.selectedSegmentIndex = 1
+        }
         navigationController?.pushViewController(subscriptionViewController, animated: true)
     }
     
@@ -204,6 +236,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         let photosDetail = PhotosDetailViewController()
         photosDetail.user = user
         photosDetail.title = "Фотографии \(user?.firstName ?? " ")"
+        photosDetail.navigationItem.backButtonTitle = " "
         navigationController?.pushViewController(photosDetail, animated: true)
     }
     
@@ -225,7 +258,6 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         print(#function)
         let vc = EditProfileViewController()
         vc.delegate = self
-        vc.user = user
         present(vc, animated: true, completion: nil)
     }
     
@@ -271,15 +303,18 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
                 profileHeader?.profileImageView.image = UIImage(data: imageData)
                 user?.avatar = imageData
                 coreDataManager.saveContext()
+                profileTableView.reloadData()
             }
         case .createStories:
             print("createStories")
             picker.dismiss(animated: true, completion: nil)
             let storiesVC = StoriesViewController()
             DispatchQueue.main.async { [self] in
+                guard let storiesData = image.jpegData(compressionQuality: 1) else {return}
                 storiesVC.storiesImageView.image = image
                 storiesVC.nameLabel.text = transliterate(nonLatin: "\(user?.firstName ?? "") \(user?.secondName ?? "")")
                 self.present(storiesVC, animated: true) {
+                    storiesVC.storiesData = storiesData
                 }
             }
         case .createPhoto:

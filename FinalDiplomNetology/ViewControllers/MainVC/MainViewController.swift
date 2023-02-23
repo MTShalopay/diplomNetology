@@ -20,6 +20,7 @@ class MainViewController: UIViewController {
         let sortDescription = NSSortDescriptor(key: "numberPhone", ascending: true)
         fetchRequest.sortDescriptors = [sortDescription]
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: coreDataManager.context, sectionNameKeyPath: nil, cacheName: nil)
+        //frc.delegate = self
         return frc
     }()
 
@@ -64,26 +65,25 @@ class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        do {
-            try fetchResultController.performFetch()
-        } catch let error {
-            print(error)
-        }
+//        do {
+//            try fetchResultController.performFetch()
+//        } catch let error {
+//            print(error)
+//        }
 //        for object in fetchResultController.fetchedObjects as! [User] {
-//            if object.uuID == user?.uuID {
+//            if object.uuID == CurrentUser?.uuID {
 //                print("ZZZ: \(object.uuID) \(object.numberPhone) \(object.password) \(object.firstName) \(object.dayBirth)")
 //            }
 //            print("================")
 //        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        guard let mainTB = tabBarController as? MainTabBarController else {return}
-            user = mainTB.user
-        print("USER: \(user)")
         setupView()
     }
+    
     private func setupView() {
         createNavigationController(isHidden: false)
         navigationController?.navigationBar.prefersLargeTitles = false
@@ -108,8 +108,8 @@ class MainViewController: UIViewController {
         ])
     }
     @objc private func searchAction() {
-        let serachVC = SearchViewController()
-        navigationController?.pushViewController(serachVC, animated: true)
+        let searchVC = SearchViewController()
+        navigationController?.pushViewController(searchVC, animated: true)
     }
     @objc private func notifyAction() {
         print(#function)
@@ -172,19 +172,18 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         print("SECTION \(indexPath.section) - ROW \(indexPath.row)")
         let profileSubscriber = ProfileViewController()
         profileSubscriber.navigationItem.leftItemsSupplementBackButton = true
-        DispatchQueue.main.async {
-            guard let profileHeaderView = profileSubscriber.profileTableView.headerView(forSection: 0) as? ProfileHeaderView else { return }
+        guard let profileHeaderView = profileSubscriber.tableView(profileSubscriber.profileTableView, viewForHeaderInSection: 0) as? ProfileHeaderView else {return}
             profileHeaderView.editButton.isHidden = true
             profileHeaderView.subscribersButtonStack.isHidden = false
             
-            guard let searchNoteHeaderView = profileSubscriber.profileTableView.headerView(forSection: 1) as? SearchNoteHeaderView else {return print("zz")}
+            guard let searchNoteHeaderView = profileSubscriber.tableView(profileSubscriber.profileTableView, viewForHeaderInSection: 1) as? SearchNoteHeaderView else {return }
             searchNoteHeaderView.searchButton.isHidden = true
             searchNoteHeaderView.titleLabel.text = "Посты Максима"
             
             let settingBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .done, target: self, action: #selector(self.menuTap))
             settingBarButtonItem.tintColor = UIColor(hexRGB: ColorType.LabelTextColor.textOrangeColor.rawValue)
             profileSubscriber.navigationItem.rightBarButtonItem = settingBarButtonItem
-        }
+        
         navigationController?.pushViewController(profileSubscriber, animated: true)
     }
     
@@ -217,3 +216,53 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             return UIView()
     }
 }
+
+extension MainViewController: NSFetchedResultsControllerDelegate {
+
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        mainTableView.beginUpdates()
+    }
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            print("INSERT:")
+//            if let indexPath = indexPath {
+//                profileTableView.insertRows(at: [indexPath], with: .automatic)
+//            }
+        case .delete:
+            print("DELETE:")
+//            if let indexPath = indexPath {
+//                profileTableView.deleteRows(at: [indexPath], with: .automatic)
+//            }
+        case .move:
+            print("MOVE:")
+//            if let indexPath = indexPath {
+//                profileTableView.deleteRows(at: [indexPath], with: .automatic)
+//            }
+//            if let indexPath = newIndexPath {
+//                profileTableView.insertRows(at: [indexPath], with: .automatic)
+//            }
+        case .update:
+            print("UPDATE:")
+//            if let indexPath = indexPath {
+//                let user = fetchResultController.object(at: indexPath) as! User
+//                    print("section: \(indexPath)")
+//                    profileTableView.insertRows(at: [indexPath], with: .automatic)
+//            }
+////
+////            if let indexPath = indexPath {
+////
+////
+//////                let object = fetchResultController.sections?[indexPath.row].objects?[indexPath.row] as? User
+////                profileTableView.insertRows(at: [IndexPath(row: indexPath.row, section: 1)], with: .automatic)
+////            }
+        @unknown default:
+            break
+        }
+    }
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        mainTableView.endUpdates()
+    }
+}
+
+

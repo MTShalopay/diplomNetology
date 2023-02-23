@@ -10,7 +10,6 @@ import UIKit
 class EditProfileViewController: UIViewController {
     weak var delegate: ProfileDelegateUpdateTableView?
     var coreDataManager = CoreDataManager.shared
-    var user: User?
     enum SettingType: String, CaseIterable {
         case firstname = "Имя"
         case secondName = "Фамилия"
@@ -39,7 +38,6 @@ class EditProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        print("EDITPROFILEVC: \(user)")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -119,29 +117,29 @@ extension EditProfileViewController: UITableViewDelegate, UITableViewDataSource 
         switch indexPath.section {
         case 0:
             cell.textField.placeholder = "Введите имя"
-            cell.textField.text = user?.firstName ?? ""
+            cell.textField.text = CurrentUser?.firstName ?? ""
             cell.textField.inputView = nil
             cell.textField.inputAccessoryView = nil
             cell.textField.tag = indexPath.section
         case 1:
             cell.textField.placeholder = "Введите фамилию"
-            cell.textField.text = user?.secondName ?? ""
+            cell.textField.text = CurrentUser?.secondName ?? ""
             cell.textField.inputView = nil
             cell.textField.inputAccessoryView = nil
             cell.textField.tag = indexPath.section
         case 2:
             cell.textField.placeholder = "01.12.1998"
-            cell.textField.text = user?.dayBirth ?? ""
+            cell.textField.text = CurrentUser?.dayBirth ?? ""
             cell.textField.tag = indexPath.section
         case 3:
             cell.textField.placeholder = "Введите родной город"
-            cell.textField.text = user?.city ?? ""
+            cell.textField.text = CurrentUser?.city ?? ""
             cell.textField.inputView = nil
             cell.textField.inputAccessoryView = nil
             cell.textField.tag = indexPath.section
         case 4:
             cell.textField.placeholder = "Введите профессию"
-            cell.textField.text = user?.profession ?? ""
+            cell.textField.text = CurrentUser?.profession ?? ""
             cell.textField.inputView = nil
             cell.textField.inputAccessoryView = nil
             cell.textField.tag = indexPath.section
@@ -169,11 +167,11 @@ extension EditProfileViewController: UITableViewDelegate, UITableViewDataSource 
     
     func saveUser() {
         let cells = tableView.visibleCells as! [EditProfileViewCell]
-        user?.firstName = cells[0].textField.text
-        user?.secondName = cells[1].textField.text
-        user?.dayBirth = cells[2].textField.text
-        user?.city = cells[3].textField.text
-        user?.profession = cells[4].textField.text
+        CurrentUser?.firstName = cells[0].textField.text
+        CurrentUser?.secondName = cells[1].textField.text
+        CurrentUser?.dayBirth = cells[2].textField.text
+        CurrentUser?.city = cells[3].textField.text
+        CurrentUser?.profession = cells[4].textField.text
         coreDataManager.saveContext()
     }
     

@@ -36,5 +36,16 @@ func transliterate(nonLatin: String) -> String {
         .replacingOccurrences(of: " ", with: "_") ?? nonLatin
 }
 
+
 let defaultImageData = UIImage(named: "logo")?.pngData()
-var globalUser: User?
+
+var currentUserUID: String? {
+    get {
+        UserDefaults.standard.string(forKey: "currentUserUID_Key")
+    }
+    set {
+        UserDefaults.standard.set(newValue, forKey: "currentUserUID_Key")
+    }
+}
+
+var CurrentUser: User?

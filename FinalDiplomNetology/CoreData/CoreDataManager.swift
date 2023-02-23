@@ -85,19 +85,46 @@ class CoreDataManager {
         return true
     }
     
-    func chekcduplicateUser(for numberPhone: String) -> Bool {
+    func verificationUserPassword(password: String) -> Bool {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
+        fetchRequest.predicate = NSPredicate(format: "password == %@",password)
+        do {
+            let result = try persistentContainer.viewContext.fetch(fetchRequest) as! [User]
+            if result.count != 0 {
+                return false
+            }
+        } catch let error {
+            print("chekcduplicateUser ERROR: \(error)")
+        }
+        return true
+    }
+    
+    func getUser() {
+        guard let currentUserUID = currentUserUID else { return }
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
+        fetchRequest.predicate = NSPredicate(format: "uuID == %@", currentUserUID)
+        do {
+            let result = try persistentContainer.viewContext.fetch(fetchRequest).first as! User
+            CurrentUser = result
+        } catch let error {
+            print("ERROR: \(error)")
+        }
+    }
+    
+    func chekcUser(for numberPhone: String, completion: ((User?)-> Void)?) {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
         fetchRequest.predicate = NSPredicate(format: "numberPhone == %@",numberPhone)
         do {
             let result = try persistentContainer.viewContext.fetch(fetchRequest) as! [User]
             if result.count == 0 {
-                return true
+                completion?(nil)
+                return
             }
-            
+            completion?(result.first)
         } catch let error {
             print("chekcduplicateUser ERROR: \(error)")
         }
-        return false
+        
     }
     
     func fetchChekPassword(_ password: String) -> Bool {
@@ -114,33 +141,6 @@ class CoreDataManager {
         return false
     }
     
-    /*
-     func checkDuplicate(authorName: String) -> Bool {
-         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "FavoriteItem")
-         fetchRequest.predicate = NSPredicate(format: "author == %@", argumentArray: [authorName])
-         let count = try! persistentContainer.viewContext.count(for: fetchRequest)
-         fetchRequest.fetchLimit = count
-         guard count == 0 else {
-             print("POST DUBLICATE")
-                 return false
-         }
-         return true
-     }
-     */
-    /*
-     let fetchrequest = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
-     fetchrequest.predicate = NSPredicate(format: "numberPhone == %@", "89275403646")
-     do {
-         let result = try coreDataManager.context.fetch(fetchrequest)
-         for user in result as! [User] {
-             print("uuID :\(user.uuID) phone: \(user.numberPhone)")
-         }
-         
-     } catch let error {
-         print(error)
-     }
-     print("============")
-     */
     func createUser() -> User {
         let user = NSManagedObject(entity: entityForName("User"), insertInto: context) as! User
         user.uuID = UUID().uuidString
@@ -166,48 +166,29 @@ class CoreDataManager {
         return photo
     }
     
-//    func createJoke(from JokeCodable: JokeCodable) {
-//        persistentContainer.performBackgroundTask { (context) in
-//            let joke = Joke(context: context)
-//            joke.uid = JokeCodable.id
-//            joke.text = JokeCodable.value
-//            joke.dateCreate = Date()
-//            JokeCodable.categories.forEach { (category) in
-//                let categoryJoke = self.getCategory(by: category, contex: context)
-//                joke.addToCategories(categoryJoke)
-//            }
-//            do {
-//                try context.save()
-//            } catch {
-//                print("ERROR create Joke: \(error.localizedDescription)")
-//            }
-//        }
-//    }
-    func getUser(by uuid: String) -> User {
-        let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "uuID == %@", uuid)
-        do {
-            if let user = (try context.fetch(fetchRequest)).first {
-                //print(user.uuID, user.numberPhone)
-                return user
-            }
-        } catch let error {
-            print(error)
-        }
-        return User()
+    func createStories(storiesData: Data) -> Stories {
+        let stories = NSManagedObject(entity: entityForName("Stories"), insertInto: context) as! Stories
+        stories.date = Date()
+        stories.image = storiesData
+        saveContext()
+        return stories
     }
-//    func getCategory(by name: String, contex: NSManagedObjectContext) -> Categories {
-//        let request: NSFetchRequest<Categories> = Categories.fetchRequest()
-//        request.predicate = NSPredicate(format: "name == %@", name)
-//            if let category = (try? contex.fetch(request).first) {
-//                return category
-//            } else {
-//                let newCategory = Categories(context: contex)
-//                newCategory.name = name
-//                return newCategory
-//            }
-//    }
     
+
+//    func getUser(by uuid: String) -> User {
+//        let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
+//        fetchRequest.predicate = NSPredicate(format: "uuID == %@", uuid)
+//        do {
+//            if let user = (try context.fetch(fetchRequest)).first {
+//                //print(user.uuID, user.numberPhone)
+//                return user
+//            }
+//        } catch let error {
+//            print(error)
+//        }
+//        return User()
+//    }
+
     func deleteUser(user: User) {
         persistentContainer.viewContext.delete(user)
         saveContext()
@@ -219,6 +200,7 @@ class CoreDataManager {
         saveContext()
         print("Удалили пост")
     }
+    
     
     func deletePhoto(photo: Photo) {
         persistentContainer.viewContext.delete(photo)
@@ -253,11 +235,20 @@ class CoreDataManager {
         }
         print("Удалили всех юзеров")
     }
-//    func deleteCategory(category: Categories) {
-//        category.jokes?.forEach({ (joke) in
-//            deleteJoke(joke: joke as! Joke)
-//        })
-//        persistentContainer.viewContext.delete(category)
-//        saveContext()
-//    }
+    
+    func deleteAllFollowers() {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
+        do {
+            let users = try context.fetch(fetchRequest) as! [User]
+            for user in users {
+                for follower in user.followers!.allObjects as! [User] {
+                    context.delete(follower)
+                    saveContext()
+                }
+            }
+        } catch let error {
+            print(error)
+        }
+        print("Удалили всех подписчиков")
+    }
 }
