@@ -10,21 +10,12 @@ import CoreData
 
 class MainViewController: UIViewController {
     var coreDataManager = CoreDataManager.shared
-    var user: User?
-    var postsArray = [Post?]()
+    
     enum menuItem: String, CaseIterable {
         case news = "Новости"
         case foryou = "Для вас"
     }
-    private lazy var fetchResultController: NSFetchedResultsController<NSFetchRequestResult> = {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
-        let sortDescription = NSSortDescriptor(key: "numberPhone", ascending: true)
-        fetchRequest.sortDescriptors = [sortDescription]
-        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: coreDataManager.context, sectionNameKeyPath: nil, cacheName: nil)
-        //frc.delegate = self
-        return frc
-    }()
-
+    
     private lazy var layout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
@@ -66,30 +57,12 @@ class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        do {
-//            try fetchResultController.performFetch()
-//        } catch let error {
-//            print(error)
-//        }
-//        for object in fetchResultController.fetchedObjects as! [User] {
-//            if object.uuID == CurrentUser?.uuID {
-//                print("ZZZ: \(object.uuID) \(object.numberPhone) \(object.password) \(object.firstName) \(object.dayBirth)")
-//            }
-//            print("================")
-//        }
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupView()
         mainTableView.reloadData()
-        postsArray.removeAll()
-        CurrentUser?.subscriptions?.allObjects.forEach({ (subscription) in
-            (subscription as! User).posts?.allObjects.forEach({ (post) in
-                postsArray.append(post as? Post)
-            })
-        })
     }
     
     private func setupView() {
@@ -115,6 +88,18 @@ class MainViewController: UIViewController {
             mainTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
+    
+    private func getSubscriptionPosts(user: User?) -> [Post]{
+        var tempArray = [Post]()
+        user?.subscriptions?.allObjects.forEach({ (subscription) in
+            (subscription as! User).posts?.allObjects.forEach({ (post) in
+                guard let post = post as? Post else {return}
+                tempArray.append(post)
+            })
+        })
+        return tempArray
+    }
+    
     @objc private func searchAction() {
         let searchVC = SearchViewController()
         navigationController?.pushViewController(searchVC, animated: true)
@@ -157,7 +142,8 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         case 0:
             return 1
         case 1:
-            return postsArray.count
+            let posts = getSubscriptionPosts(user: CurrentUser)
+            return posts.count
         default:
             return 0
         }
@@ -167,12 +153,15 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         switch indexPath.section {
         case 0:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: StoriesViewCell.identifier, for: indexPath) as? StoriesViewCell else { return UITableViewCell(frame: .zero)}
+            cell.imageCollectionView.reloadData()
+            cell.mainViewController = self
             return cell
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as? PostTableViewCell else { return UITableViewCell(frame: .zero) }
-            if let post = postsArray[indexPath.row] {
-                cell.setupCell(post: post)
-            }
+            let posts = getSubscriptionPosts(user: CurrentUser)
+            cell.post = posts[indexPath.row]
+            cell.setupCell(post: posts[indexPath.row])
+            cell.setFavoriteImage()
             return cell
         default:
             return UITableViewCell(frame: .zero)
@@ -180,11 +169,11 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let post = postsArray[indexPath.row]
+        let posts = getSubscriptionPosts(user: CurrentUser)
+        let post = posts[indexPath.row]
         let profileSubscriber = ProfileViewController()
         profileSubscriber.navigationItem.leftItemsSupplementBackButton = true
-        profileSubscriber.user = post?.user
-        
+        profileSubscriber.user = post.user
         navigationController?.pushViewController(profileSubscriber, animated: true)
     }
     
@@ -215,54 +204,6 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
             return UIView()
-    }
-}
-
-extension MainViewController: NSFetchedResultsControllerDelegate {
-
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        mainTableView.beginUpdates()
-    }
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        switch type {
-        case .insert:
-            print("INSERT:")
-//            if let indexPath = indexPath {
-//                profileTableView.insertRows(at: [indexPath], with: .automatic)
-//            }
-        case .delete:
-            print("DELETE:")
-//            if let indexPath = indexPath {
-//                profileTableView.deleteRows(at: [indexPath], with: .automatic)
-//            }
-        case .move:
-            print("MOVE:")
-//            if let indexPath = indexPath {
-//                profileTableView.deleteRows(at: [indexPath], with: .automatic)
-//            }
-//            if let indexPath = newIndexPath {
-//                profileTableView.insertRows(at: [indexPath], with: .automatic)
-//            }
-        case .update:
-            print("UPDATE:")
-//            if let indexPath = indexPath {
-//                let user = fetchResultController.object(at: indexPath) as! User
-//                    print("section: \(indexPath)")
-//                    profileTableView.insertRows(at: [indexPath], with: .automatic)
-//            }
-////
-////            if let indexPath = indexPath {
-////
-////
-//////                let object = fetchResultController.sections?[indexPath.row].objects?[indexPath.row] as? User
-////                profileTableView.insertRows(at: [IndexPath(row: indexPath.row, section: 1)], with: .automatic)
-////            }
-        @unknown default:
-            break
-        }
-    }
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        mainTableView.endUpdates()
     }
 }
 

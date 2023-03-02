@@ -128,7 +128,6 @@ class CoreDataManager {
     func createPost(image: Data?, text: String?) -> Post {
         let post = NSManagedObject(entity: entityForName("Post"), insertInto: context) as! Post
         post.date = Date()
-        post.favorite = false
         post.image = image
         post.text = text
         saveContext()

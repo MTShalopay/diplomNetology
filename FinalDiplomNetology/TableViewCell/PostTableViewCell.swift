@@ -9,11 +9,11 @@ import UIKit
 
 class PostTableViewCell: UITableViewCell {
     static var identifier = "PostTableViewCell"
+    var post: Post?
     var likeButtonCheck = false
     var likeTotal = 0
     var commitButtonCheck = false
     var commitTotal = 0
-    var favoriteButtonCheck = false
     
     private lazy var logoImageView: UIImageView = {
        let imageView = UIImageView(image: UIImage(named: "logo"))
@@ -197,13 +197,17 @@ class PostTableViewCell: UITableViewCell {
     }
     
     @objc private func isFavorite(sender: UIButton) {
-        print(#function)
-        if favoriteButtonCheck == false {
-            sender.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
-            favoriteButtonCheck = true
+        guard let post = post else {return print("OPS")}
+        CurrentUser?.changeFavoritePostState(for: post)
+        setFavoriteImage()
+    }
+    
+    func setFavoriteImage() {
+        guard let post = post else {return}
+        if CurrentUser?.isFavoritePost(post: post) == true {
+            favoriteButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
         } else {
-            sender.setImage(UIImage(systemName: "bookmark"), for: .normal)
-            favoriteButtonCheck = false
+            favoriteButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
         }
     }
     

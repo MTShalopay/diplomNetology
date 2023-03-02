@@ -6,13 +6,11 @@
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="photos" inverseEntity="User"/>
     </entity>
     <entity name="Post" representedClassName="Post" syncable="YES">
-        <attribute name="commit" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="favorite" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="image" optional="YES" attributeType="Binary"/>
-        <attribute name="like" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="text" optional="YES" attributeType="String"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="posts" inverseEntity="User"/>
+        <relationship name="userPostFavorite" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="favoritesPost" inverseEntity="User"/>
     </entity>
     <entity name="Stories" representedClassName="Stories" syncable="YES">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -29,6 +27,7 @@
         <attribute name="profession" optional="YES" attributeType="String"/>
         <attribute name="secondName" optional="YES" attributeType="String"/>
         <attribute name="uuID" optional="YES" attributeType="String"/>
+        <relationship name="favoritesPost" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Post" inverseName="userPostFavorite" inverseEntity="Post"/>
         <relationship name="followers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="subscriptions" inverseEntity="User"/>
         <relationship name="photos" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Photo" inverseName="user" inverseEntity="Photo"/>
         <relationship name="posts" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Post" inverseName="user" inverseEntity="Post"/>
@@ -37,8 +36,8 @@
     </entity>
     <elements>
         <element name="Photo" positionX="-333.5053100585938" positionY="158.7995910644531" width="128" height="88"/>
-        <element name="Post" positionX="-269.6025390625" positionY="268.7708282470703" width="128" height="148"/>
-        <element name="Stories" positionX="-41.82916259765625" positionY="290.1815795898438" width="128" height="74"/>
-        <element name="User" positionX="-18.50238037109375" positionY="-65.29998779296875" width="128" height="239"/>
+        <element name="Post" positionX="-332.696044921875" positionY="268.0711364746094" width="128" height="104"/>
+        <element name="Stories" positionX="-2.9036865234375" positionY="298.3858032226563" width="128" height="74"/>
+        <element name="User" positionX="-18.50238037109375" positionY="-65.29998779296875" width="128" height="268"/>
     </elements>
 </model>

@@ -11,6 +11,8 @@ import CoreData
 class SubscriptionViewController: UIViewController {
     var coreDataManager = CoreDataManager.shared
     private let segmenItems = ["Подписчики","Подписки"]
+    private var followers = [User]()
+    private var subscriptions = [User]()
     
     public lazy var subscriptionSegmentControl: UISegmentedControl = {
        let segmentedControl = UISegmentedControl(items: segmenItems)
@@ -43,17 +45,6 @@ class SubscriptionViewController: UIViewController {
         return searchController.isActive && !searchBarIsEmpty
     }
     
-//    private lazy var fetchResultController: NSFetchedResultsController<NSFetchRequestResult> = {
-//        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
-//        let sortDescription = NSSortDescriptor(key: "firstName", ascending: true)
-//        fetchRequest.sortDescriptors = [sortDescription]
-//        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: coreDataManager.context, sectionNameKeyPath: nil, cacheName: nil)
-//        return frc
-//    }()
-    
-    private var followers = [User]()
-    private var subscriptions = [User]()
-    
     private lazy var subscriptTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.delegate = self
@@ -74,32 +65,13 @@ class SubscriptionViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupView()
-//        do {
-//            try fetchResultController.performFetch()
-//        } catch let error {
-//            print("ERROR searchViewController: \(error)")
-//        }
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        print("================================")
-//        for followers in fetchResultController.fetchedObjects as! [User] {
-//            print(followers.followers?.count, followers.followers)
-//        }
-//        print("================================")
-//        for subscriptions in fetchResultController.fetchedObjects as! [User] {
-//            print(subscriptions.subscriptions?.count, subscriptions.subscriptions)
-//        }
-//        print("================================")
-        for object in CurrentUser?.followers?.allObjects as! [User] {
-            print("Имя подписчика: \(object.firstName) Телефон подписчика: \(object.numberPhone)")
-        }
-        for object in CurrentUser?.subscriptions?.allObjects as! [User] {
-            print("Имя подиски: \(object.firstName) Телефон подписки: \(object.numberPhone)")
-        }
+        setupView()
         followers = CurrentUser?.followers?.allObjects as! [User]
         subscriptions = CurrentUser?.subscriptions?.allObjects as! [User]
+        subscriptTableView.reloadData()
     }
     
     private func setupView() {
@@ -174,18 +146,15 @@ extension SubscriptionViewController: UITableViewDelegate, UITableViewDataSource
         tableView.deselectRow(at: indexPath, animated: true)
         let profileSubscriber = ProfileViewController()
         profileSubscriber.navigationItem.leftItemsSupplementBackButton = true
-            //profileSubscriber.user = user
-        
-        
         switch subscriptionSegmentControl.selectedSegmentIndex {
-        case 0:
-            let follower = followers[indexPath.row]
-            profileSubscriber.user = follower
-        case 1:
-            let subscription = subscriptions[indexPath.row]
-            profileSubscriber.user = subscription
-        default:
-            break
+            case 0:
+                let follower = followers[indexPath.row]
+                profileSubscriber.user = follower
+            case 1:
+                let subscription = subscriptions[indexPath.row]
+                profileSubscriber.user = subscription
+            default:
+                break
         }
         navigationController?.pushViewController(profileSubscriber, animated: true)
     }

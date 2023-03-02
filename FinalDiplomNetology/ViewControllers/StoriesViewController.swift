@@ -37,7 +37,7 @@ class StoriesViewController: UIViewController {
         return button
     }()
     
-    private lazy var pushStoriesButton: CustomButton = {
+    public lazy var pushStoriesButton: CustomButton = {
         let button = CustomButton(title: "Поделиться", fontname: FontTextType.regular.rawValue, fontsize: 20, backGroundColor: ColorType.LabelTextColor.textOrangeColor.rawValue, textColor: ColorType.LabelTextColor.textWhiteColor.rawValue, cornerRadius: 5, lineHeightMultiple: 1.24, kern: 0.16)
         button.addTarget(self, action: #selector(pushStories), for: .touchUpInside)
         button.contentVerticalAlignment = .center

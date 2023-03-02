@@ -40,12 +40,12 @@
 		49449E2F29A2F34E00A36EA9 /* Stories+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49449E2729A2F34E00A36EA9 /* Stories+CoreDataProperties.swift */; };
 		49449E3229A2F34E00A36EA9 /* Photo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49449E2A29A2F34E00A36EA9 /* Photo+CoreDataClass.swift */; };
 		49449E3329A2F34E00A36EA9 /* Photo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49449E2B29A2F34E00A36EA9 /* Photo+CoreDataProperties.swift */; };
-		49449E4F29A646ED00A36EA9 /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49449E4B29A646ED00A36EA9 /* User+CoreDataClass.swift */; };
-		49449E5029A646ED00A36EA9 /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49449E4C29A646ED00A36EA9 /* User+CoreDataProperties.swift */; };
-		49449E5129A646ED00A36EA9 /* Post+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49449E4D29A646ED00A36EA9 /* Post+CoreDataClass.swift */; };
-		49449E5229A646ED00A36EA9 /* Post+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49449E4E29A646ED00A36EA9 /* Post+CoreDataProperties.swift */; };
 		49449E5729A6485C00A36EA9 /* Extension+User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49449E5629A6485C00A36EA9 /* Extension+User.swift */; };
 		49449E5B29B0C97500A36EA9 /* PopUpInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49449E5A29B0C97400A36EA9 /* PopUpInfoViewController.swift */; };
+		49449E6329B10BD500A36EA9 /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49449E5F29B10BD500A36EA9 /* User+CoreDataClass.swift */; };
+		49449E6429B10BD500A36EA9 /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49449E6029B10BD500A36EA9 /* User+CoreDataProperties.swift */; };
+		49449E6A29B14AE100A36EA9 /* Post+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49449E6829B14AE100A36EA9 /* Post+CoreDataClass.swift */; };
+		49449E6B29B14AE100A36EA9 /* Post+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49449E6929B14AE100A36EA9 /* Post+CoreDataProperties.swift */; };
 		49D3C3BE29858103003F1C87 /* RecoveryStepOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D3C3BD29858103003F1C87 /* RecoveryStepOne.swift */; };
 		49D3C3C2298581B8003F1C87 /* Extension+UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D3C3C1298581B8003F1C87 /* Extension+UIViewController.swift */; };
 		49D3C3C7298586A7003F1C87 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D3C3C6298586A7003F1C87 /* MainViewController.swift */; };
@@ -104,12 +104,12 @@
 		49449E2729A2F34E00A36EA9 /* Stories+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Stories+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		49449E2A29A2F34E00A36EA9 /* Photo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataClass.swift"; sourceTree = "<group>"; };
 		49449E2B29A2F34E00A36EA9 /* Photo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		49449E4B29A646ED00A36EA9 /* User+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataClass.swift"; sourceTree = "<group>"; };
-		49449E4C29A646ED00A36EA9 /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		49449E4D29A646ED00A36EA9 /* Post+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Post+CoreDataClass.swift"; sourceTree = "<group>"; };
-		49449E4E29A646ED00A36EA9 /* Post+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Post+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		49449E5629A6485C00A36EA9 /* Extension+User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+User.swift"; sourceTree = "<group>"; };
 		49449E5A29B0C97400A36EA9 /* PopUpInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpInfoViewController.swift; sourceTree = "<group>"; };
+		49449E5F29B10BD500A36EA9 /* User+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataClass.swift"; sourceTree = "<group>"; };
+		49449E6029B10BD500A36EA9 /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		49449E6829B14AE100A36EA9 /* Post+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Post+CoreDataClass.swift"; sourceTree = "<group>"; };
+		49449E6929B14AE100A36EA9 /* Post+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Post+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		49D3C3BD29858103003F1C87 /* RecoveryStepOne.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoveryStepOne.swift; sourceTree = "<group>"; };
 		49D3C3C1298581B8003F1C87 /* Extension+UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIViewController.swift"; sourceTree = "<group>"; };
 		49D3C3C6298586A7003F1C87 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -180,10 +180,10 @@
 		4941016E2995467900EF31DD /* Entity */ = {
 			isa = PBXGroup;
 			children = (
-				49449E4B29A646ED00A36EA9 /* User+CoreDataClass.swift */,
-				49449E4C29A646ED00A36EA9 /* User+CoreDataProperties.swift */,
-				49449E4D29A646ED00A36EA9 /* Post+CoreDataClass.swift */,
-				49449E4E29A646ED00A36EA9 /* Post+CoreDataProperties.swift */,
+				49449E6829B14AE100A36EA9 /* Post+CoreDataClass.swift */,
+				49449E6929B14AE100A36EA9 /* Post+CoreDataProperties.swift */,
+				49449E5F29B10BD500A36EA9 /* User+CoreDataClass.swift */,
+				49449E6029B10BD500A36EA9 /* User+CoreDataProperties.swift */,
 				49449E2629A2F34E00A36EA9 /* Stories+CoreDataClass.swift */,
 				49449E2729A2F34E00A36EA9 /* Stories+CoreDataProperties.swift */,
 				49449E2A29A2F34E00A36EA9 /* Photo+CoreDataClass.swift */,
@@ -443,7 +443,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				49449E3229A2F34E00A36EA9 /* Photo+CoreDataClass.swift in Sources */,
-				49449E4F29A646ED00A36EA9 /* User+CoreDataClass.swift in Sources */,
 				49D3C41829892AA2003F1C87 /* PhotosTableViewCell.swift in Sources */,
 				49D3C3D62986B5B6003F1C87 /* MainHeaderView.swift in Sources */,
 				49D3C41B29892CA3003F1C87 /* PhotosCollectionViewCell.swift in Sources */,
@@ -464,9 +463,10 @@
 				49410147298BDB1400EF31DD /* EditProfileViewCell.swift in Sources */,
 				4941177F2983EA2400299336 /* Extension+UIVew.swift in Sources */,
 				49D3C3F12988F71C003F1C87 /* ProfileHeaderView.swift in Sources */,
+				49449E6429B10BD500A36EA9 /* User+CoreDataProperties.swift in Sources */,
 				494117882983EA6300299336 /* CustomStackView.swift in Sources */,
 				49D3C3C7298586A7003F1C87 /* MainViewController.swift in Sources */,
-				49449E5229A646ED00A36EA9 /* Post+CoreDataProperties.swift in Sources */,
+				49449E6B29B14AE100A36EA9 /* Post+CoreDataProperties.swift in Sources */,
 				49D3C426298989CA003F1C87 /* SettingProfileViewController.swift in Sources */,
 				49410159298EBEBB00EF31DD /* StoriesViewController.swift in Sources */,
 				494117912983EE1800299336 /* CustomButton.swift in Sources */,
@@ -478,13 +478,13 @@
 				494117A429841BCC00299336 /* Extension+TextField.swift in Sources */,
 				49D3C3C2298581B8003F1C87 /* Extension+UIViewController.swift in Sources */,
 				4941175A2983E5E800299336 /* AppDelegate.swift in Sources */,
-				49449E5129A646ED00A36EA9 /* Post+CoreDataClass.swift in Sources */,
+				49449E6A29B14AE100A36EA9 /* Post+CoreDataClass.swift in Sources */,
 				4941175C2983E5E800299336 /* SceneDelegate.swift in Sources */,
 				49D3C423298989A1003F1C87 /* ContainerViewController.swift in Sources */,
+				49449E6329B10BD500A36EA9 /* User+CoreDataClass.swift in Sources */,
 				494117A8298428F900299336 /* OnBoardingRegisterStepFinish.swift in Sources */,
 				49449DEA299E5B4D00A36EA9 /* SearchViewCell.swift in Sources */,
 				49D3C3EA2987FFCA003F1C87 /* FavoriteViewController.swift in Sources */,
-				49449E5029A646ED00A36EA9 /* User+CoreDataProperties.swift in Sources */,
 				49D3C3F4298908F3003F1C87 /* Extension+UIButton.swift in Sources */,
 				49D3C3E72987FFBA003F1C87 /* ProfileViewController.swift in Sources */,
 				49449E5729A6485C00A36EA9 /* Extension+User.swift in Sources */,

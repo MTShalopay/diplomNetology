@@ -122,7 +122,9 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         case 1:
             guard let cellTwo = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as? PostTableViewCell else {return UITableViewCell(frame: .zero)}
             let post = user?.posts?.allObjects[indexPath.row] as! Post
+            cellTwo.post = post
             cellTwo.setupCell(post: post)
+            cellTwo.setFavoriteImage()
             if user?.uuID == CurrentUser?.uuID {
                 cellTwo.optionButton.addTarget(self, action: #selector(tapingButton), for: .touchUpInside)
             } else {
@@ -130,10 +132,9 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             }
             return cellTwo
         default:
-            UITableViewCell(frame: .zero)
+            break
         }
-        let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
-        return cell
+        return UITableViewCell(frame: .zero)
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -215,15 +216,15 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        switch editingStyle {
-        case .delete:
-            if let post = user?.posts?.allObjects[indexPath.row] as? Post {
-                coreDataManager.deletePost(post: post)
-                tableView.deleteRows(at: [indexPath], with: .automatic)
+            switch editingStyle {
+            case .delete:
+                if let post = user?.posts?.allObjects[indexPath.row] as? Post {
+                    coreDataManager.deletePost(post: post)
+                    tableView.deleteRows(at: [indexPath], with: .automatic)
+                }
+            @unknown default:
+                break
             }
-        @unknown default:
-            break
-        }
     }
     
     @objc private func presentPopUpInfoVC() {
@@ -352,53 +353,6 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
     
 }
 
-//extension ProfileViewController: NSFetchedResultsControllerDelegate {
-//
-//    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-//        profileTableView.beginUpdates()
-//    }
-//    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-//        switch type {
-//        case .insert:
-//            print("INSERT:")
-//            if let indexPath = indexPath {
-//                profileTableView.insertRows(at: [indexPath], with: .automatic)
-//            }
-//        case .delete:
-//            print("DELETE:")
-//            if let indexPath = indexPath {
-//                profileTableView.deleteRows(at: [indexPath], with: .automatic)
-//            }
-//        case .move:
-//            print("MOVE:")
-//            if let indexPath = indexPath {
-//                profileTableView.deleteRows(at: [indexPath], with: .automatic)
-//            }
-//            if let indexPath = newIndexPath {
-//                profileTableView.insertRows(at: [indexPath], with: .automatic)
-//            }
-//        case .update:
-//            print("UPDATE:")
-//            if let indexPath = indexPath {
-//                let user = fetchResultController.object(at: indexPath) as! User
-//                    print("section: \(indexPath)")
-//                    profileTableView.insertRows(at: [indexPath], with: .automatic)
-//            }
-////
-////            if let indexPath = indexPath {
-////
-////
-//////                let object = fetchResultController.sections?[indexPath.row].objects?[indexPath.row] as? User
-////                profileTableView.insertRows(at: [IndexPath(row: indexPath.row, section: 1)], with: .automatic)
-////            }
-//        @unknown default:
-//            break
-//        }
-//    }
-//    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-//        profileTableView.endUpdates()
-//    }
-//}
 extension ProfileViewController: ProfileDelegateUpdateTableView {
     func updateTableView() {
         profileTableView.reloadData()

@@ -2,7 +2,7 @@
 //  User+CoreDataProperties.swift
 //  FinalDiplomNetology
 //
-//  Created by Shalopay on 22.02.2023.
+//  Created by Shalopay on 02.03.2023.
 //
 //
 
@@ -30,6 +30,7 @@ extension User {
     @NSManaged public var posts: NSSet?
     @NSManaged public var stories: Stories?
     @NSManaged public var subscriptions: NSSet?
+    @NSManaged public var favoritesPost: NSSet?
 
 }
 
@@ -98,6 +99,23 @@ extension User {
 
     @objc(removeSubscriptions:)
     @NSManaged public func removeFromSubscriptions(_ values: NSSet)
+
+}
+
+// MARK: Generated accessors for favoritesPost
+extension User {
+
+    @objc(addFavoritesPostObject:)
+    @NSManaged public func addToFavoritesPost(_ value: Post)
+
+    @objc(removeFavoritesPostObject:)
+    @NSManaged public func removeFromFavoritesPost(_ value: Post)
+
+    @objc(addFavoritesPost:)
+    @NSManaged public func addToFavoritesPost(_ values: NSSet)
+
+    @objc(removeFavoritesPost:)
+    @NSManaged public func removeFromFavoritesPost(_ values: NSSet)
 
 }
 
