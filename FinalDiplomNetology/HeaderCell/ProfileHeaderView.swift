@@ -38,7 +38,7 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
         return label
     }()
     
-    private lazy var infoButton: UIButton = {
+    public lazy var infoButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "exclamationmark.circle.fill"), for: .normal)
         button.tintColor = UIColor(hexRGB: ColorType.LabelTextColor.textOrangeColor.rawValue)
@@ -47,7 +47,6 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
         button.setTitle("Подробная информация", for: .normal)
         button.setTitleColor(UIColor(hexRGB: ColorType.LabelTextColor.textBlackColor.rawValue), for: .normal)
         button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        //button.addTarget(self, action: #selector(changeLike), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()

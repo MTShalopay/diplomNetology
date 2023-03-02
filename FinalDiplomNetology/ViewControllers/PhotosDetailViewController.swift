@@ -38,7 +38,6 @@ class PhotosDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         if user == nil {
-            
             user = CurrentUser
         }
     }

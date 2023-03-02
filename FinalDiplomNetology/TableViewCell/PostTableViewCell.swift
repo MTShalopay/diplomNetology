@@ -42,7 +42,6 @@ class PostTableViewCell: UITableViewCell {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "ellipsis"), for: .normal)
         button.tintColor = UIColor(hexRGB: ColorType.LabelTextColor.textOrangeColor.rawValue)
-//        button.addTarget(self, action: #selector(tapingButton), for: .touchUpInside)
         button.transform = button.transform.rotated(by: .pi / 2)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button

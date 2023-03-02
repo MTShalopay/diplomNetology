@@ -45,6 +45,7 @@
 		49449E5129A646ED00A36EA9 /* Post+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49449E4D29A646ED00A36EA9 /* Post+CoreDataClass.swift */; };
 		49449E5229A646ED00A36EA9 /* Post+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49449E4E29A646ED00A36EA9 /* Post+CoreDataProperties.swift */; };
 		49449E5729A6485C00A36EA9 /* Extension+User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49449E5629A6485C00A36EA9 /* Extension+User.swift */; };
+		49449E5B29B0C97500A36EA9 /* PopUpInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49449E5A29B0C97400A36EA9 /* PopUpInfoViewController.swift */; };
 		49D3C3BE29858103003F1C87 /* RecoveryStepOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D3C3BD29858103003F1C87 /* RecoveryStepOne.swift */; };
 		49D3C3C2298581B8003F1C87 /* Extension+UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D3C3C1298581B8003F1C87 /* Extension+UIViewController.swift */; };
 		49D3C3C7298586A7003F1C87 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D3C3C6298586A7003F1C87 /* MainViewController.swift */; };
@@ -108,6 +109,7 @@
 		49449E4D29A646ED00A36EA9 /* Post+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Post+CoreDataClass.swift"; sourceTree = "<group>"; };
 		49449E4E29A646ED00A36EA9 /* Post+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Post+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		49449E5629A6485C00A36EA9 /* Extension+User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+User.swift"; sourceTree = "<group>"; };
+		49449E5A29B0C97400A36EA9 /* PopUpInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpInfoViewController.swift; sourceTree = "<group>"; };
 		49D3C3BD29858103003F1C87 /* RecoveryStepOne.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoveryStepOne.swift; sourceTree = "<group>"; };
 		49D3C3C1298581B8003F1C87 /* Extension+UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIViewController.swift"; sourceTree = "<group>"; };
 		49D3C3C6298586A7003F1C87 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 				494117762983E77100299336 /* Extension */,
 				4941176F2983E63B00299336 /* Others */,
 				49D3C3E32987FE23003F1C87 /* MainTabBarController.swift */,
+				49449E5A29B0C97400A36EA9 /* PopUpInfoViewController.swift */,
 			);
 			path = FinalDiplomNetology;
 			sourceTree = "<group>";
@@ -492,6 +495,7 @@
 				49410165299544B200EF31DD /* CoreDataManager.swift in Sources */,
 				49449E3329A2F34E00A36EA9 /* Photo+CoreDataProperties.swift in Sources */,
 				49D3C3ED298804B5003F1C87 /* PostTableViewCell.swift in Sources */,
+				49449E5B29B0C97500A36EA9 /* PopUpInfoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -119,22 +119,22 @@ class OnBoardingRegisterStepFinish: UIViewController {
             mainTB.modalTransitionStyle = .flipHorizontal
             mainTB.modalPresentationStyle = .fullScreen
         switch registerType {
-        case .registered:
-            print("REGISTERED")
-            CurrentUser?.password = smsTextField.text!
-            currentUserUID = CurrentUser?.uuID
-            coreDataManager.saveContext()
-        case .entered:
-            currentUserUID = CurrentUser?.uuID
-            print("ENTERED")
-            if coreDataManager.verificationUserPassword(password:smsTextField.text!) == true {
-                let alertController = UIAlertController(title: "ОШИБКА ВХОДА", message: "Введите верный пароль", preferredStyle: .alert)
-                let cancelAction = UIAlertAction(title: "Понятно", style: .cancel, handler: nil)
-                alertController.addAction(cancelAction)
-                present(alertController, animated: true, completion: nil)
-                return
-            }
-            break
+            case .registered:
+                print("REGISTERED")
+                CurrentUser?.password = smsTextField.text!
+                currentUserUID = CurrentUser?.uuID
+                coreDataManager.saveContext()
+            case .entered:
+                currentUserUID = CurrentUser?.uuID
+                print("ENTERED")
+                if coreDataManager.verificationUserPassword(password:smsTextField.text!) == true {
+                    let alertController = UIAlertController(title: "ОШИБКА ВХОДА", message: "Введите верный пароль", preferredStyle: .alert)
+                    let cancelAction = UIAlertAction(title: "Понятно", style: .cancel, handler: nil)
+                    alertController.addAction(cancelAction)
+                    present(alertController, animated: true, completion: nil)
+                    return
+                }
+                break
         }
         navigationController?.present(mainTB, animated: true, completion: nil)
     }

@@ -123,7 +123,11 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             guard let cellTwo = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as? PostTableViewCell else {return UITableViewCell(frame: .zero)}
             let post = user?.posts?.allObjects[indexPath.row] as! Post
             cellTwo.setupCell(post: post)
-            cellTwo.optionButton.addTarget(self, action: #selector(tapingButton), for: .touchUpInside)
+            if user?.uuID == CurrentUser?.uuID {
+                cellTwo.optionButton.addTarget(self, action: #selector(tapingButton), for: .touchUpInside)
+            } else {
+                cellTwo.optionButton.isHidden = true
+            }
             return cellTwo
         default:
             UITableViewCell(frame: .zero)
@@ -152,6 +156,8 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             profileHeader.profileImageView.image = UIImage(data: user.avatar ?? defaultImageData!)
             
             profileHeader.editButton.addTarget(self, action: #selector(editProfile), for: .touchUpInside)
+            
+            profileHeader.infoButton.addTarget(self, action: #selector(presentPopUpInfoVC), for: .touchUpInside)
             
             let tapOnAvatarImageGusture = UITapGestureRecognizer(target: self, action: #selector(tapOnAvatarImage))
             profileHeader.profileImageView.addGestureRecognizer(tapOnAvatarImageGusture)
@@ -218,6 +224,15 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         @unknown default:
             break
         }
+    }
+    
+    @objc private func presentPopUpInfoVC() {
+        let vc = PopUpInfoViewController()
+        vc.enteredUser(user: user)
+        self.addChild(vc)
+        vc.view.frame = view.frame
+        self.view.addSubview(vc.view)
+        vc.didMove(toParent: self)
     }
     
     @objc private func goToSubscription(sender: UIButton) {
