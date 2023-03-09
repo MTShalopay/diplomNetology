@@ -222,6 +222,10 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
                     coreDataManager.deletePost(post: post)
                     tableView.deleteRows(at: [indexPath], with: .automatic)
                 }
+            case .none:
+                break
+            case .insert:
+                break
             @unknown default:
                 break
             }
@@ -248,7 +252,6 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     @objc private func goToPhotosDetail() {
-        print(#function)
         let photosDetail = PhotosDetailViewController()
         photosDetail.user = user
         photosDetail.title = "Фотографии \(user?.firstName ?? " ")"
@@ -271,7 +274,6 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         present(imagePicker, animated: true, completion: nil)
     }
     @objc private func editProfile() {
-        print(#function)
         let vc = EditProfileViewController()
         vc.delegate = self
         present(vc, animated: true, completion: nil)
@@ -297,7 +299,6 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     
     //MARK: createPost
     @objc private func createPost(sender: UIButton) {
-        print(#function)
         let addPostVC = AddPostViewController()
         addPostVC.delegate = self
         addPostVC.user = user
@@ -313,7 +314,6 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         
         switch action {
         case .tapOnAvatar:
-            print("tapOnAvatar")
             DispatchQueue.main.async { [self] in
                 guard let imageData = image.jpegData(compressionQuality: 1) else {return}
                 profileHeader?.profileImageView.image = UIImage(data: imageData)
@@ -322,7 +322,6 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
                 profileTableView.reloadData()
             }
         case .createStories:
-            print("createStories")
             picker.dismiss(animated: true, completion: nil)
             let storiesVC = StoriesViewController()
             DispatchQueue.main.async { [self] in
@@ -334,7 +333,6 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
                 }
             }
         case .createPhoto:
-            print("createPhoto")
             guard let imageData = image.jpegData(compressionQuality: 1) else {return}
             let photo = coreDataManager.createPhoto(imageData: imageData)
             user?.addToPhotos(photo)
@@ -347,10 +345,8 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         picker.dismiss(animated: true, completion: nil)
     }
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        print(#function)
         picker.dismiss(animated: true, completion: nil)
     }
-    
 }
 
 extension ProfileViewController: ProfileDelegateUpdateTableView {

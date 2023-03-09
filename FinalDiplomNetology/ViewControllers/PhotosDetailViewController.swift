@@ -102,7 +102,6 @@ extension PhotosDetailViewController: UICollectionViewDataSource, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("Section OPS - \(indexPath.section) - Item \(indexPath.item)")
         collectionView.deselectItem(at: indexPath, animated: true)
         let photo = user?.photos?.allObjects[indexPath.row] as? Photo
         

@@ -69,14 +69,18 @@ extension FavoriteViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
             switch editingStyle {
-            case .delete:
-                if let post = CurrentUser?.favoritesPost?.allObjects[indexPath.row] as? Post {
-                    CurrentUser?.removeFromFavoritesPost(post)
-                    coreDataManager.saveContext()
-                    tableView.deleteRows(at: [indexPath], with: .automatic)
-                }
-            @unknown default:
-                break
+                case .delete:
+                    if let post = CurrentUser?.favoritesPost?.allObjects[indexPath.row] as? Post {
+                        CurrentUser?.removeFromFavoritesPost(post)
+                        coreDataManager.saveContext()
+                        tableView.deleteRows(at: [indexPath], with: .automatic)
+                    }
+                case .none:
+                    break
+                case .insert:
+                    break
+                @unknown default:
+                    break
             }
     }
     

@@ -153,7 +153,7 @@ class CoreDataManager {
     func deleteUser(user: User) {
         persistentContainer.viewContext.delete(user)
         saveContext()
-        print("Удалили юзера с телефоном \(user.numberPhone)")
+        print("Удалили юзера с телефоном \(String(describing: user.numberPhone))")
     }
     
     func deletePost(post: Post) {

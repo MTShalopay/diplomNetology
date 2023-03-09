@@ -197,7 +197,7 @@ class PostTableViewCell: UITableViewCell {
     }
     
     @objc private func isFavorite(sender: UIButton) {
-        guard let post = post else {return print("OPS")}
+        guard let post = post else { return }
         CurrentUser?.changeFavoritePostState(for: post)
         setFavoriteImage()
     }
@@ -212,7 +212,6 @@ class PostTableViewCell: UITableViewCell {
     }
     
     @objc private func viewCommit(sender: UIButton) {
-        print(#function)
         if commitButtonCheck == false {
             sender.setImage(UIImage(systemName: "message.fill"), for: .normal)
             commitButtonCheck = true

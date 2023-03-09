@@ -204,9 +204,9 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        recordButton.alignImageAndTitleVertically(padding: 6)
-        storiesButton.alignImageAndTitleVertically(padding: 6)
-        photoButton.alignImageAndTitleVertically(padding: 6)
+        recordButton.alignImageAndTitleVertically(padding: 1)
+        storiesButton.alignImageAndTitleVertically(padding: 1)
+        photoButton.alignImageAndTitleVertically(padding: 1)
     }
     
     private func setupView() {
@@ -265,18 +265,10 @@ class ProfileHeaderView: UITableViewHeaderFooterView {
             horizontalView.topAnchor.constraint(equalTo: horizontalStack.bottomAnchor, constant: 2),
             horizontalView.heightAnchor.constraint(equalToConstant: 1),
             
-            //recordButton
-            //recordButton.heightAnchor.constraint(equalToConstant: 68),
-            //storiesButton
-            //storiesButton.heightAnchor.constraint(equalToConstant: 68),
-            //photoButton
-            //photoButton.heightAnchor.constraint(equalToConstant: 68),
-            
             //horizontalButtonStack
             horizontalButtonStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             horizontalButtonStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            horizontalButtonStack.topAnchor.constraint(equalTo: horizontalView.bottomAnchor, constant: 2),
-            horizontalButtonStack.heightAnchor.constraint(equalToConstant: 68),
+            horizontalButtonStack.topAnchor.constraint(equalTo: horizontalView.bottomAnchor, constant: 15),
             horizontalButtonStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
         ])
     }

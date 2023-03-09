@@ -164,27 +164,31 @@ extension SubscriptionViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         switch editingStyle {
-        case .delete:
-            switch subscriptionSegmentControl.selectedSegmentIndex {
-            case 0:
-                if let follower = CurrentUser?.followers?.allObjects[indexPath.row] as? User {
-                    CurrentUser?.removeFromSubscriptions(follower)
-                    followers.remove(at: indexPath.row)
-                    coreDataManager.saveContext()
-                    tableView.deleteRows(at: [indexPath], with: .automatic)
+            case .delete:
+                switch subscriptionSegmentControl.selectedSegmentIndex {
+                case 0:
+                    if let follower = CurrentUser?.followers?.allObjects[indexPath.row] as? User {
+                        CurrentUser?.removeFromSubscriptions(follower)
+                        followers.remove(at: indexPath.row)
+                        coreDataManager.saveContext()
+                        tableView.deleteRows(at: [indexPath], with: .automatic)
+                    }
+                case 1:
+                    if let subscription = CurrentUser?.subscriptions?.allObjects[indexPath.row] as? User {
+                        CurrentUser?.removeFromSubscriptions(subscription)
+                        subscriptions.remove(at: indexPath.row)
+                        coreDataManager.saveContext()
+                        tableView.deleteRows(at: [indexPath], with: .automatic)
+                    }
+                default:
+                    break
                 }
-            case 1:
-                if let subscription = CurrentUser?.subscriptions?.allObjects[indexPath.row] as? User {
-                    CurrentUser?.removeFromSubscriptions(subscription)
-                    subscriptions.remove(at: indexPath.row)
-                    coreDataManager.saveContext()
-                    tableView.deleteRows(at: [indexPath], with: .automatic)
-                }
-            default:
+            case .none:
                 break
-            }
-        @unknown default:
-            break
+            case .insert:
+                break
+            @unknown default:
+                break
         }
     }
 }

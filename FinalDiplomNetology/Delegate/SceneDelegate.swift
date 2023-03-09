@@ -15,18 +15,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.windowScene = windowScene
+        //MARK: локальный путь к файлу core data
+        /*
         let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
         print(paths[0])
-        
+        */
         CoreDataManager.shared.getUser()
         if CurrentUser != nil {
             window?.rootViewController = MainTabBarController()
         } else {
             window?.rootViewController = UINavigationController(rootViewController: OnBoardingStart())
         }
-        //CoreDataManager.shared.deleteAllFollowers()
-        //CoreDataManager.shared.deleteAllUser()
-        //CoreDataManager.shared.deleteAllPhoto()
         window?.overrideUserInterfaceStyle = .light
         window?.makeKeyAndVisible()
         

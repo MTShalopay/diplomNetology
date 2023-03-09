@@ -28,7 +28,7 @@ class MenuViewCell: UICollectionViewCell {
             titleLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             titleLabel.heightAnchor.constraint(equalToConstant: (titleLabel.text?.getHeight() ?? 0) + 10),
-            titleLabel.widthAnchor.constraint(equalToConstant: titleLabel.text?.getWidth() ?? 0),
+            titleLabel.widthAnchor.constraint(equalToConstant: (titleLabel.text?.getWidth() ?? 0) + 10),
         ])
     }
 

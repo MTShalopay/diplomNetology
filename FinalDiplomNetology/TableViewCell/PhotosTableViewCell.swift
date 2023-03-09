@@ -103,7 +103,6 @@ extension PhotosTableViewCell: UICollectionViewDataSource, UICollectionViewDeleg
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("section \(indexPath.section) - item \(indexPath.row)")
         collectionView.deselectItem(at: indexPath, animated: true)
     }
     
@@ -113,7 +112,6 @@ extension PhotosTableViewCell: UICollectionViewDataSource, UICollectionViewDeleg
         
         let needed = collectionView.frame.width - (Constants.numberOfLine - 1) * spacing - insets.left - insets.right
         let itemwidth = floor(needed / Constants.numberOfLine)
-        //print("itemwidth \(itemwidth)")
         return CGSize(width: itemwidth, height: itemwidth)
     }
 }

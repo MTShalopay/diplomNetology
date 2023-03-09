@@ -53,7 +53,6 @@ class MainHeaderView: UITableViewHeaderFooterView {
             
             dateTitleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             dateTitleLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            dateTitleLabel.heightAnchor.constraint(equalToConstant: 24),
             dateTitleLabel.widthAnchor.constraint(equalToConstant: (dateTitleLabel.text?.getWidth() ?? 0) + 44),
             dateTitleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5)
             

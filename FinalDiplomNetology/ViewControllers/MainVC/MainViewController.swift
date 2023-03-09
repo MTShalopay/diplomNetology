@@ -19,7 +19,7 @@ class MainViewController: UIViewController {
     private lazy var layout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-        layout.minimumInteritemSpacing = 0
+        layout.minimumInteritemSpacing = 32
         layout.scrollDirection = .horizontal
         return layout
     }()
@@ -62,6 +62,11 @@ class MainViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupView()
+        if (getSubscriptionPosts(user: CurrentUser)).count > 0 {
+            mainTableView.isHidden = false
+        } else {
+            mainTableView.isHidden = true
+        }
         mainTableView.reloadData()
     }
     
@@ -121,14 +126,7 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("section \(indexPath.section) - item \(indexPath.row)")
         collectionView.deselectItem(at: indexPath, animated: true)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        print(#function)
-        let cell = collectionView.cellForItem(at: indexPath) as? MenuViewCell
-        return CGSize(width: 74, height: 22)
     }
 }
 

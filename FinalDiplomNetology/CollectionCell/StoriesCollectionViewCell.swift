@@ -35,7 +35,7 @@ class StoriesCollectionViewCell: UICollectionViewCell {
         ])
     }
     func setupCell(stories: Stories) {
-        guard let stories = stories.image else { return print("OPS")}
+        guard let stories = stories.image else { return }
         storiesImageView.image = UIImage(data: stories)
     }
     
