@@ -94,10 +94,10 @@ class PopUpInfoViewController: UIViewController {
             titleLabel.centerXAnchor.constraint(equalTo: infoView.centerXAnchor),
             titleLabel.topAnchor.constraint(equalTo: infoView.topAnchor, constant: 20),
             
-            mainVerticalStack.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
+            mainVerticalStack.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5),
             mainVerticalStack.leadingAnchor.constraint(equalTo: infoView.leadingAnchor, constant: 30),
             mainVerticalStack.trailingAnchor.constraint(equalTo: infoView.trailingAnchor, constant: -30),
-            mainVerticalStack.bottomAnchor.constraint(equalTo: infoView.bottomAnchor, constant: -30),
+            mainVerticalStack.bottomAnchor.constraint(equalTo: infoView.bottomAnchor, constant: -10),
         ])
     }
     

@@ -128,6 +128,10 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
     }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let item = menuItem.allCases[indexPath.row].rawValue
+        return CGSize(width: item.getWidth(), height: 22)
+    }
 }
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
